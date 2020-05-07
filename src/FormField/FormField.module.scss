@@ -1,0 +1,79 @@
+@import '../common.scss';
+
+$suffixHorizontalPadding: 12px;
+$inlineLabelMinHeight: 36px;
+$childrenMargin: 6px;
+
+.root {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-wrap: wrap;
+
+  &.stretchContent {
+    display: flex;
+
+    .children {
+      flex-grow: 1;
+    }
+  }
+}
+
+.minLabelHeight {
+  min-height: $inlineLabelMinHeight;
+  line-height: $inlineLabelMinHeight;
+}
+
+.labelTop {
+  flex-direction: column;
+
+  .label {
+    display: flex;
+    align-items: center;
+    flex: 1 0 auto;
+
+    .required {
+      display: inline-block;
+      color: #4EB7F5;
+      font-size: 22px;
+      margin-left: 6px;
+      margin-top: -4px;
+    }
+  }
+
+  .children {
+    max-width: 100%;
+    padding-top: $childrenMargin;
+  }
+}
+
+.labelRight {
+  flex-direction: row;
+
+  .childrenWithInlineSuffixes {
+    padding-right: $suffixHorizontalPadding;
+  }
+}
+
+.labelLeft {
+  flex-direction: row-reverse;
+
+  .childrenWithInlineSuffixes {
+    padding-left: $suffixHorizontalPadding;
+  }
+}
+
+@include withRTL {
+  .labelRight {
+    .childrenWithInlineSuffixes {
+      padding-right: 0;
+      padding-left: $suffixHorizontalPadding;
+    }
+  }
+
+  .labelLeft {
+    .childrenWithInlineSuffixes {
+      padding-left: 0;
+      padding-right: $suffixHorizontalPadding;
+    }
+  }
+}

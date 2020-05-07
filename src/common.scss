@@ -1,0 +1,8 @@
+@import './common/Focusable/FocusableMixins.scss';
+@import './colors.scss';
+
+@mixin withRTL() {
+  :global(.rtl), :global([dir='rtl']) {
+    @content
+  }
+}

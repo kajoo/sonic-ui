@@ -1,0 +1,26 @@
+@import './colors.scss';
+
+@mixin default-scroll-bar() {
+  &::-webkit-scrollbar {
+    width: 18px;
+    background-color: #fff;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+    height: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    /* https://stackoverflow.com/a/16829330/5343330 */
+    background-color: $B30;
+    background-clip: content-box;
+    border-radius: 5px * 2; // we need to double border-radius to receive 5px
+    border: 5px solid transparent; // for width emulation
+    height: 72px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: $B20;
+  }
+  &::-webkit-scrollbar-thumb:active {
+    background-color: $B10;
+  }
+}

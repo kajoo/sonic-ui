@@ -1,0 +1,40 @@
+@import '../../common.scss';
+@import '../MessageBoxCommon.module.scss';
+
+.footer {
+  padding: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.footerbuttons {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  flex-shrink: 0;
+
+   &.withSideActions {
+     padding-left: 24px;
+   }
+}
+
+.footerbuttons > :first-of-type:not(:last-of-type) {
+  margin-right: 12px;
+}
+
+@include withRTL {
+  .footerbuttons {
+    margin-left: 0;
+    margin-right: auto;
+
+    &.withSideActions {
+      padding-left: 0;
+      padding-right: 24px;
+    }
+  }
+
+  .footerbuttons > :first-of-type:not(:last-of-type) {
+    margin-left: 12px;
+    margin-right: 0;
+  }
+}

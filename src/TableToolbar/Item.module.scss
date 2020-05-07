@@ -1,0 +1,52 @@
+@mixin MarginBetween($margin: 12px) {
+  &:not(:first-child) {
+    margin-left: $margin;
+  }
+
+  &:not(:last-child) {
+    margin-right: $margin;
+  }
+
+  :global(.rtl) &,
+  :global([dir='rtl']) & {
+    &:not(:first-child) {
+      margin-left: 0;
+      margin-right: $margin;
+    }
+
+    &:not(:last-child) {
+      margin-left: $margin;
+      margin-right: 0;
+    }
+  }
+}
+
+.itemGroup {
+  display: flex;
+  align-items: center;
+
+  &.positionStart {
+    justify-content: flex-start;
+  }
+
+  &.positionEnd {
+    justify-content: flex-end;
+  }
+
+  .item {
+    @include MarginBetween(12px);
+
+    &.layoutButton {
+      @include MarginBetween(0px);
+    }
+  }
+
+  .itemLabel {
+    display: flex;
+    align-items: center;
+
+    > * {
+      @include MarginBetween(6px);
+    }
+  }
+}

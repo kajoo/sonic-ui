@@ -1,0 +1,86 @@
+
+/** Background color of the content */
+$contentBackgroundColor: white;
+/** Border width of the content */
+$contentBorderWidth: 1px;
+/** Border style of the content */
+$contentBorderStyle: solid;
+/** Border color of the content */
+$contentBorderColor: black;
+/** Border radius of the content */
+$contentBorderRadius: initial;
+/** Content padding for the content */
+$contentPadding: initial;
+/** Size of the arrow of the content */
+$contentArrowSize: 5px;
+
+.root {
+  position: relative;
+  display: inline-block;
+}
+
+.popoverContent {
+  background-color: $contentBackgroundColor;
+  border: $contentBorderWidth $contentBorderStyle $contentBorderColor;
+  border-radius: $contentBorderRadius;
+  padding: $contentPadding;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  margin: $contentArrowSize;
+}
+
+.popover[data-placement*="top"].withArrow {
+  padding-bottom: $contentArrowSize;
+
+  .arrow {
+    border-width: $contentArrowSize $contentArrowSize 0 $contentArrowSize;
+    bottom: calc(-1 * #{$contentArrowSize});
+    margin-top: 0;
+    margin-bottom: $contentArrowSize;
+    border-color: $contentBorderColor transparent transparent transparent;
+  }
+}
+
+
+.popover[data-placement*="bottom"].withArrow {
+  padding-top: $contentArrowSize;
+
+  .arrow {
+    border-width: 0 $contentArrowSize $contentArrowSize $contentArrowSize;
+    top: calc(-1 * #{$contentArrowSize});
+    margin-top: $contentArrowSize;
+    margin-bottom: 0;
+    border-color: transparent transparent $contentBorderColor transparent;
+  }
+}
+
+
+.popover[data-placement*="left"].withArrow {
+  padding-right: $contentArrowSize;
+
+  .arrow {
+    border-width: $contentArrowSize 0 $contentArrowSize $contentArrowSize;
+    right: calc(-1 * #{$contentArrowSize});
+    margin-left: 0;
+    margin-right: $contentArrowSize;
+    border-color: transparent transparent transparent $contentBorderColor;
+  }
+}
+
+
+.popover[data-placement*="right"].withArrow {
+  padding-left: $contentArrowSize;
+
+  .arrow {
+    border-width: $contentArrowSize $contentArrowSize $contentArrowSize 0;
+    left: calc(-1 * #{$contentArrowSize});
+    margin-left: $contentArrowSize;
+    margin-right: 0;
+    border-color: transparent $contentBorderColor transparent transparent;
+  }
+}

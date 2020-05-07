@@ -1,0 +1,100 @@
+@import '../../common.scss';
+@import './TextAreaMixins.scss';
+
+.root {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  @include BoxSizing();
+  border: solid 1px;
+  border-radius: 4px;
+}
+
+.textArea {
+  flex-grow: 1;
+  flex-shrink: 1;
+  // min-width: 20px;
+  // min-height: 36px;
+  margin: 0;
+  padding: 6px 12px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 16px;
+
+  // @include default-scroll-bar();
+  &::-webkit-scrollbar-thumb {
+    height: 30px;
+  }
+}
+
+.theme {
+  &-normal {
+    @include ThemeDefault(
+      $color: $D10,
+      $borderColor: $B30,
+      $backgroundColor: $D80
+    );
+  }
+  &-material {
+    border-radius: 0;
+
+    @include ThemeDefault(
+      $color: $D10,
+      $borderColor: #e0e3e5,
+      $backgroundColor: $D80
+    );
+
+    @at-root {
+      .bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: $D60;
+        &:before,
+        &:after {
+          content: '';
+          height: 1px;
+          width: 0;
+          bottom: 0;
+          position: absolute;
+          background: $D50;
+          transition: 0.2s ease all;
+        }
+        &:before {
+          left: 50%;
+        }
+        &:after {
+          right: 50%;
+        }
+      }
+
+      .hasFocus .bar:before,
+      .hasFocus .bar:after {
+        width: 50%;
+      }
+    }
+  }
+}
+
+.resizable .textArea {
+  resize: vertical;
+}
+
+.nonResizable .textArea {
+  resize: none;
+}
+
+.counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+@include withRTL() {
+  .counter {
+    right: auto;
+  }
+}

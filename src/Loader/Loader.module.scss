@@ -1,0 +1,30 @@
+@keyframes spin {
+  0% {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+  100% {
+    transform: rotate3d(0, 0, 1, 360deg);
+  }
+}
+
+.container {
+  position: relative;
+  max-width: fit-content;
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+
+  &.active {
+    opacity: 1;
+  }
+
+  .icon {
+    width: 100%;
+    height: 100%;
+
+    & > path {
+      fill: white;
+      transform-origin: 50% 50%;
+      animation: spin 1s infinite linear;
+    }
+  }
+}

@@ -1,0 +1,57 @@
+@import '../common.scss';
+
+.badge {
+  box-sizing: border-box;
+  display: inline-block;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
+
+  span {
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 0.625rem;
+    line-height: 0.75rem;
+    letter-spacing: 1px;
+  }
+}
+
+.skin {
+  &-general {
+    &.type-solid {
+      background-color: $D20;
+      border-color: $D20;
+      color: white;
+    }
+    &.type-outlined {
+      background-color: white;
+      border-color: $D20;
+      color: $D20;
+    }
+    &.type-transparent {
+      background-color: transparent;
+      border-color: transparent;
+      color: $D20;
+    }
+  }
+}
+
+.size {
+  &-medium {
+    padding: 5px 12px;
+  }
+
+  &-small {
+    padding: 2px 6px;
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.clickable {
+  cursor: pointer;
+}

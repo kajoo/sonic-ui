@@ -1,0 +1,128 @@
+@import '~draft-js/dist/Draft';
+@import '../colors.scss';
+
+$minWidth: 378px;
+$minHeight: 132px;
+// $backgroundColor: $D80;
+// $border: 1px solid $B30;
+$borderRadius: 6px;
+$padding: 12px;
+
+.root {
+  min-height: $minHeight;
+  min-width: $minWidth;
+  // background-color: $backgroundColor;
+  border-radius: $borderRadius;
+
+  :global(.public-DraftEditorPlaceholder-root) {
+    // @include Text($weight: normal, $size: medium, $light: true, $secondary: true);
+
+    padding: $padding;
+    position: absolute;
+    pointer-events: none;
+  }
+}
+
+.editorWrapper {
+  background-color: $pale-grey;
+  border-radius: 10px;
+  box-shadow: $Shadow30;
+  
+  position: relative;
+
+  :global(.public-DraftEditor-content) {
+    // background-color: $backgroundColor;
+    min-height: $minHeight;
+    // max-height: var(--max-height);
+    padding: $padding;
+    // border: $border;
+    border-bottom-left-radius: $borderRadius;
+    border-bottom-right-radius: $borderRadius;
+    overflow: auto;
+
+    // @include Text($weight: thin, $size: medium);
+
+    &:hover {
+      // background-color: $B50;
+      cursor: pointer;
+    }
+
+    &:focus {
+      // background-color: $D80;
+      cursor: text;
+      // border-color: $B10;
+      // box-shadow: 0 0 0 3px $F00;
+    }
+  }
+}
+
+.disabled {
+  // $color: $D10-30;
+  // $borderColor: $D10-30;
+
+  .toolbar {
+    // border-color: $borderColor;
+  }
+
+  :global(.public-DraftEditorPlaceholder-root) {
+    // color: $color;
+  }
+
+  :global(.public-DraftEditor-content) {
+    // color: $color;
+    // border-color: $borderColor;
+
+    &:hover {
+      // background-color: $backgroundColor;
+      cursor: default;
+    }
+  }
+
+  .link {
+    // color: $color;
+  }
+}
+
+.error {
+  // $borderColor: $R10;
+
+  .toolbar {
+    // border-color: $borderColor;
+  }
+
+  :global(.public-DraftEditor-content) {
+    // border-left-color: $borderColor;
+    // border-bottom-color: $borderColor;
+    // border-right-color: $borderColor;
+
+    &:focus {
+      // border-color: $borderColor;
+      // box-shadow: 0 0 0 3px $R30;
+    }
+  }
+}
+
+.errorIndicator {
+  position: absolute;
+  top: 1px;
+  right: 5px;
+}
+
+.hidePlaceholder {
+  :global(.public-DraftEditorPlaceholder-root) {
+    display: none;
+  }
+}
+
+.toolbar {
+  // border: $border;
+  border-bottom: 0;
+  border-top-left-radius: $borderRadius;
+  border-top-right-radius: $borderRadius;
+}
+
+.link {
+  // @include Text($weight: thin, $size: medium, $link: true);
+
+  text-decoration: none;
+}

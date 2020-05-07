@@ -1,0 +1,127 @@
+
+$blue: #1E90FF;
+$lightblue: #25CCF7;
+$grey: #8395a7;
+$green: #1DD1A1;
+$crimson: #EB4D4B;
+$red: #FF3838;
+$pink: #FC427B;
+$orange: #FF9F43;
+$yellow: #F9CA24;
+$black: #222F3E;
+$purple: #5F27CD;
+
+$bright-blue: #25ccf7;
+$clear-blue: #1e90ff;
+$light-purple: #5f27cd;
+$cool-green: #1dd1a1;
+$golden-yellow: #f9ca24;
+$light-orange: #ff9f43;
+$warm-pink: #fc427b;
+$pastel-red: #eb4d4b;
+$ketchap-red: #ff3838;
+$pale-grey: #f1f2f6;
+$powder-blue: #c8d6e5;
+$greyblue: #8395a7;
+$dark-side: #222f3e;
+
+// $D10: $dark-side; //
+// $D20: $dark-side;
+// $D40: $greyblue; //
+// $D50: $powder-blue;
+// $D55: $powder-blue; //
+// $D60: $powder-blue;
+// $D70: $pale-grey; //
+// $D80: #FFFFFF; //
+$D10: #162D3D;   // Main input text, titles
+$D20: #32536A;   // Titles, texts
+$D30: #577083;   // Texts
+$D40: #7A92A5;   // Dividers, texts, Placeholder
+$D50: #B6C1CD;   // Dividers, texts
+$D55: #CBD3DC;   // Disabled button - new version - naming not final
+$D60: #DFE5EB;   // Dividers
+$D70: #F0F4F7;   // Page background, dividers
+$D80: #FFFFFF;   // Content box background
+
+$D10-05: rgba($D10, 0.05);
+$D10-10: rgba($D10, 0.1);
+$D10-20: rgba($D10, 0.2);
+$D10-30: rgba($D10, 0.3);
+$D80-70: rgba($D80, 0.7);
+
+$B30: $bright-blue;
+$B80: $clear-blue;
+
+$B00: #2B81CB;   // Buttons
+$B05: #308DDD;   // CTA
+$B10: #3899EC;   // Main action color, active, buttons
+$B20: #4EB7F5;   // Hover for elements with B10, buttons
+$B25: #A1D7FB;
+$B27: #B3E0FB;
+$B30: #C1E4FE;   // Notifications
+$B40: #DAEFFE;   // Dividers, table selected, table headers
+$B50: #EAF7FF;   // Dividers
+$B60: #F4FAFE;   // Table hover
+
+$B00-24: rgba($B00, 0.24);
+$B00-42: rgba($B00, 0.42);
+
+$F00:  #AADBFC;  // Focus Outline
+
+$P00: #8E21B1;
+$P10: #AA4DC8;   // premium
+$P20: #CD68ED;
+$P30: #E5C9EE;
+$P40: #EEDBF4;
+$P50: #FAEEFF;   // Section Helper
+$P60: #FAF7FC;
+
+$O00: #EA5F0E;
+$O10: #FB7D33;
+$O20: #FF9A48;
+
+$R00: #D6453D;
+$R05: #D8504C;   // CTA
+$R10: #EE5951;   // Errors, CTA hover
+$R20: #FF6666;   // Notifications
+$R30: #FFD7D7;   // Notifications, Focus Errors
+$R40: #FFE1E1;
+$R50: #FFEBEB;   // Section Helper
+$R60: #FFF5F5;
+$R70: #FDB10C;
+
+$G00: #44823F;
+$G05: #61AD5A;   // CTA
+$G10: #60BC57;   // CTA hover
+$G20: #80C979;   // Notifications
+$G30: #C9EEBC;   // Notifications
+$G40: #DEF4D4;
+$G50: #EDF9E5;   // Section Helper
+$G60: #F2FBEF;
+
+$Y00: #C68801;
+$Y05: #EDA200;   // CTA
+$Y10: #FDB10C;   // CTA hover
+$Y20: #FAC249;   // Notifications
+$Y30: #FEF0BA;   // Notifications
+$Y40: #FEF4CD;
+$Y50: #FDF7DF;   // Section Helper
+$Y60: #FFFCF0;
+
+$S10 : rgba(22, 45, 61, 0.12);
+$S20 : rgba(22, 45, 61, 0.48);
+$S30 : rgba(22, 45, 61, 0.06);
+$S40 : rgba(22, 45, 61, 0.18);
+$S50: rgba(255, 255, 255, 0.48);
+
+$Shadow10: 0 2px 1px 0 $S20, 0 0 3px 0 $S10;
+$Shadow20: 0 2px 4px 0 $S10, 0 0 6px 0 $S10;
+$Shadow30: 0 6px 6px 0 $S30, 0 0 18px 0 $S10;
+$Shadow40: 0 8px 8px 0 $S10, 0 3px 24px 0 $S40;
+
+$GR10: #c8c8c8; // Disabled buttons
+$GR20: #dadada; // Disabled fields
+$GR30: #f1f1f1; // Disabled background
+$GR40: #cbd3dc; // Disabled button - new version - naming not final
+$GR50: #eff1f2;
+$GR60: #a3abb0; // placeholder for InputArea theme="amaterial"

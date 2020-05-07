@@ -1,0 +1,38 @@
+@import '../common.scss';
+
+.root {
+  // display: inline-flex;
+  // align-items: center;
+  padding: 0;
+  min-width: auto;
+
+  transition-duration: 100ms;
+  transition-timing-function: linear;
+  transition-property: background-color, color, border-color;
+}
+
+.size {
+  &-large {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+  }
+
+  &-medium {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+  }
+
+  &-small {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+  }
+
+  &-tiny {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+  }
+}

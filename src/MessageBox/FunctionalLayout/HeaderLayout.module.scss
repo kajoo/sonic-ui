@@ -1,0 +1,28 @@
+@import '../../common.scss';
+
+.header {
+    // @include FontRoman();
+    box-sizing: border-box;
+    min-height      : 60px;
+    padding         : 18px;
+    padding-left    : 30px;
+    font-weight     : normal;
+    font-size       : 20px;
+    color           : white;
+    display         : flex;
+    justify-content : space-between;
+    border-radius   : 8px 8px 0px 0px;
+    line-height     : 24px;
+}
+
+.titleLabel {
+    display: inline-block;
+    width: calc(100% - 40px);
+    word-break: break-word;
+}
+
+.red          { background-color: $R10 }
+.blue         { background-color: $B10 }
+.green        { background-color: $G10 }
+.lightGreen   { background-color: $G20 }
+.purple       { background-color: $P10 }

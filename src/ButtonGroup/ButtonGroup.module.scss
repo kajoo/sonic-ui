@@ -1,0 +1,28 @@
+.buttonGroup {
+  display: flex;
+  flex-wrap: nowrap;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    margin-right: 16px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &.vertical {
+    flex-direction: column;
+
+    li {
+      margin-right: 0;
+      margin-bottom: 16px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

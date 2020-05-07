@@ -1,0 +1,44 @@
+@import '../common';
+
+$iconSize: 22px;
+
+.leftIcon {
+  display: flex;
+  margin: 0 5px 0 6px;
+  color: $B10;
+}
+
+.expandableStyles {
+  display: inline-block;
+
+  [data-input-parent] {
+    > div:nth-of-type(1) {
+      transition: width .3s;
+    }
+  }
+}
+
+.collapsed {
+  cursor: pointer;
+
+  [data-input-parent] {
+    > div:nth-of-type(1) {
+      border-color: transparent;
+      width: 14 + $iconSize;
+
+      input {
+        min-width: 0 !important;
+      }
+    }
+  }
+}
+
+.expanded {
+  display: block !important;
+
+  [data-input-parent] {
+    > div:nth-of-type(1) {
+      width: 100%;
+    }
+  }
+}

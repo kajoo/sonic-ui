@@ -1,0 +1,49 @@
+@import '../colors.scss';
+
+.container {
+  width: 300px;
+  max-width: 90vw; // FALLBACK: Old Androids don't support calc()
+  max-width: calc(100vw - 48px);
+
+  &.global {
+    position: relative;
+  }
+  &.local {
+    position: absolute;
+  }
+  &.sticky {
+    position: fixed;
+  }
+
+  > * {
+    margin-top: 16px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+.notification {
+  margin: 10px;
+  box-shadow: $Shadow30;
+}
+.notificationEnter {
+  transition: all 0.4s cubic-bezier(0.895, 0.03, 0.685, 0.22);
+  max-height: 0;
+  opacity: 0;
+}
+.notificationEnterActive {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.notificationExit {
+  max-height: 500px;
+  opacity: 1;
+}
+.notificationExitActive {
+  transition: all 0.25s cubic-bezier(0.445, 0.05, 0.55, 0.95) 0.1s;
+  max-height: 0;
+  opacity: 0;
+}

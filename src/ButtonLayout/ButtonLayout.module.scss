@@ -1,0 +1,118 @@
+@import '../common.scss';
+
+.button {
+  display: inline-flex;
+  justify-content: center;
+
+  box-sizing: border-box;
+  text-decoration: none;
+  user-select: none;
+  text-align: center;
+  vertical-align: middle;
+  outline: none;
+
+  min-width: 84px;
+  border: 1px solid;
+  cursor: pointer;
+  font-size: 1rem;
+
+  .content {
+    text-align: center;
+    line-height: 1.5rem;
+  }
+}
+
+.skin {
+  &-standard {
+    background-color: #3899ec;
+    border-color: #3899ec;
+    color: white;
+
+    &.action-secondary {
+      background-color: transparent;
+      color: #3899ec;
+
+      &:hover {
+        background-color: #3899ec;
+        color: white;
+      }
+    }
+  }
+  &-danger {
+    background-color: red;
+    border-color: red;
+    color: white;
+
+    &.action-secondary {
+      background-color: transparent;
+      color: red;
+
+      &:hover {
+        background-color: red;
+        color: white;
+      }
+    }
+  }
+  &-link {
+    background-color: transparent;
+    border-color: transparent;
+  }
+}
+
+// .action {
+//   &-primary {
+//
+//   }
+//
+//   &-secondary {
+//
+//   }
+// }
+
+.size {
+  &-large {
+    min-width: 102px;
+    padding: 12px 30px;
+    font-size: 1.5rem;
+
+    .content {
+      line-height: 2rem;
+    }
+  }
+
+  &-medium {
+    padding: 8px 24px;
+  }
+
+  &-small {
+    min-width: 72px;
+    padding: 6px 16px;
+  }
+
+  &-tiny {
+    min-width: 60px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+
+    .content {
+      line-height: 1rem;
+    }
+  }
+}
+
+.disabled {
+  cursor: default;
+  pointer-events: none;
+  background-color: #999;
+  border-color: #999;
+  color: white;
+
+  &.action-secondary {
+    background-color: transparent;
+    color: #999;
+  }
+}
+// #162d3d
+.fullWidth {
+  width: 100%;
+}

@@ -1,0 +1,115 @@
+@import '../common.scss';
+
+$headerShadowStandard: inset 0 1px 0 0 $B30, inset 0 -1px 0 0 $B30;
+$columnShadow: inset 0 -1px 0 0 $D60;
+$activeColumnShadow: inset 0 -1px 0 0 $D70;
+
+.table {
+  border-collapse: collapse;
+  border-spacing: 0px;
+  table-layout: fixed;
+  background-color: white;
+
+  th, td {
+    padding-left: 12px;
+    padding-right: 12px;
+
+    &:first-child {
+      padding-left: 30px;
+      padding-right: 12px;
+    }
+    &:last-child {
+      padding-left: 12px;
+      padding-right: 30px;
+    }
+  }
+
+  th {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    height: 24px;
+    color: $D10;
+    font-weight: normal;
+    background-color: $B40;
+    box-shadow: $headerShadowStandard;
+    // cursor: arrow;
+
+    &.th-text {
+      // TODO: text css
+    }
+
+    &.sortable {
+      cursor: pointer;
+    }
+
+    .thContainer {
+      display: flex;
+      align-items: center;
+
+      &.alignStart {
+        justify-content: flex-start;
+      }
+      &.alignCenter {
+        justify-content: center;
+      }
+      &.alignEnd {
+        justify-content: flex-end;
+      }
+    }
+  }
+
+  td {
+    // &.largeVerticalPadding {
+    //   padding-top: 24px;
+    //   padding-bottom: 24px;
+    // }
+    // &.mediumVerticalPadding {
+    //   padding-top: 18px;
+    //   padding-bottom: 18px;
+    // }
+
+    &.alignStart {
+      text-align: left;
+      text-align: start; // not supported in IE11 & Edge; 'left' as fallback
+    }
+    &.alignCenter {
+      text-align: center;
+    }
+    &.alignEnd {
+      text-align: right;
+      text-align: end; // not supported in IE11 & Edge; 'left' as fallback
+    }
+
+    &.details {
+      box-shadow: none;
+      padding: 0px;
+      height: 0px;
+    }
+
+    &.active {
+      box-shadow: $activeColumnShadow;
+      padding: 0px;
+      height: auto;
+    }
+  }
+
+  .clickableRow {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $B50;
+    }
+  }
+}
+
+.table.showLastRowDivider td {
+  box-shadow: $columnShadow;
+}
+
+.table:not(.showLastRowDivider) {
+  & tr:not(:last-child) {
+    td {
+      box-shadow: $columnShadow;
+    }
+  }
+}

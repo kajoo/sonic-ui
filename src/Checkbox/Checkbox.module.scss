@@ -1,0 +1,107 @@
+@import '../common.scss';
+
+.root {
+  display: inline-flex;
+  outline: none;
+  min-height: 24px;
+
+  label {
+    display: flex;
+    cursor: default;
+    justify-content: center;
+
+    &:not(.vtop) {
+      align-items: center;
+    }
+  }
+
+  .vtop .outer {
+    display: flex;
+    margin-top: 4px;
+  }
+
+  .checkbox {
+    position: relative;
+    width: 16px;
+    min-width: 16px;
+    height: 16px;
+    min-height: 16px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    color: $D80;
+
+    > i {
+      font-size: 22px;
+    }
+
+    // > svg {
+    //   width: 8px;
+    //   height: 8px;
+    // }
+  }
+
+  /* Checked State */
+  &.checked,
+  &.indeterminate {
+    .checkbox {
+      border: 1px solid $B10;
+      background-color: $B10;
+
+      .inner {
+        opacity: 1;
+      }
+    }
+  }
+
+  /* Unchecked State */
+  &.unchecked {
+    .checkbox {
+      border: 1px solid $B20;
+      background-color: $D80;
+
+      .inner {
+        opacity: 0;
+      }
+    }
+
+    &.hover .checkbox,
+    .checkbox:hover {
+      background-color: $B50;
+    }
+
+    &:hover {
+      .checkbox {
+        background-color: $B50;
+      }
+    }
+  }
+
+
+  .children {
+    cursor: pointer;
+    padding-left: 12px;
+  }
+}
+
+@include withRTL() {
+  .root {
+    direction: rtl;
+
+    .children {
+      padding-left: 0;
+      padding-right: 12px;
+    }
+  }
+}

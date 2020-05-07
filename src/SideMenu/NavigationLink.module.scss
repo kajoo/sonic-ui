@@ -1,0 +1,61 @@
+@import '../common';
+
+.link {
+  position: relative;
+  display: block;
+  // display: flex;
+  // flex-direction: row;
+  padding: 12px 30px;
+
+  .icon {
+    margin-right: 10px;
+  }
+
+  .children {
+    flex-grow: 1;
+  }
+
+  &.vertical {
+    flex-direction: column;
+    padding-left: 0;
+    padding-right: 0;
+
+    .icon {
+      text-align: center;
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+
+    .children {
+      text-align: center;
+    }
+  }
+
+  &:disabled {
+    background: transparent !important;
+
+    pointer-events: none;
+    // color: $D80 !important;
+    opacity: 0.45;
+    // background: transparent !important;
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+
+    .arrow {
+      opacity: 100;
+    }
+  }
+
+  &:hover {
+    color: #8395A7;
+  }
+
+  &:hover:not(.active),
+  &:focus:not(.active) {
+    // background: #33566f;
+    transition: 0.3s;
+  }
+}

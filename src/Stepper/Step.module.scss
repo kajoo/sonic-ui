@@ -1,0 +1,51 @@
+@import '../colors.scss';
+
+$stepCircleWidth: 30px;
+$stepCircleMarginRight: 12px;
+
+.root {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+
+  &.disabled {
+    cursor: default;
+  }
+
+  &.selected {
+    cursor: default;
+  }
+}
+
+.stepTextWrapper {
+  width: calc(100% - value($stepCircleWidth) - value($stepCircleMarginRight));
+}
+
+.stepText {
+  cursor: pointer;
+
+  &.disabled {
+    cursor: default;
+  }
+
+  &.selected {
+    cursor: default;
+  }
+
+  &.stepHover {
+
+  }
+
+  &.disabled.stepHover {
+
+  }
+
+  &.error {
+
+    &.selected {
+
+    }
+  }
+}

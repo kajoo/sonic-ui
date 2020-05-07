@@ -1,0 +1,82 @@
+@import '../colors.scss';
+
+.text {
+  white-space: pre-line;
+
+  .secondary {
+
+  }
+
+  .light {
+
+  }
+
+  > a {
+    color: $B10;
+    text-decoration: none;
+
+    &:hover {
+      color: $B20;
+    }
+  }
+}
+
+.skin {
+  &-standard {
+    color: $D10;
+
+    &.light {
+      color: $D80;
+    }
+    &.secondary {
+      color: $D20;
+
+      &.light {
+        color: $D40;
+      }
+    }
+  }
+  &-success {
+    color: $G10;
+  }
+  &-error {
+    color: $R10;
+  }
+  &-premium {
+    color: $P10;
+  }
+  &-disabled {
+    color: $D10-30;
+
+    &.light {
+      color: $D80-70;
+    }
+  }
+}
+
+.size {
+  &-tiny {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  &-small {
+    font-size: 14px;
+    line-height: 18px;
+  }
+  &-medium {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+.weight {
+  &-thin {
+
+  }
+  &-normal {
+
+  }
+  &-bold {
+
+  }
+}

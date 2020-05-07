@@ -1,0 +1,36 @@
+@import '../common.scss';
+
+.container {
+  display: flex;
+  max-width: 100%;
+  border-bottom: 1px solid transparent;
+}
+
+.hasDivider {
+  border-color: $D60;
+}
+
+.itemsContainer {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tab {
+  position: relative;
+  padding: 18px 18px 16px;
+  margin: 0 0 -1px;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+
+  &.isActive {
+    border-color: $B10;
+  }
+}

@@ -1,0 +1,57 @@
+@import '../common.scss';
+
+.root {
+  display: inline-flex;
+  padding: 6px 24px 6px 18px;
+  width: 100%;
+  align-items: center;
+
+  background-color: $D80;
+  cursor: pointer;
+
+  /* not supported in IE11 & Edge; 'left' as fallback */
+  text-align: left;
+  text-align: start;
+
+  outline:none;
+  border: none;
+
+  &:focus {
+    background-color: $B40;
+    box-shadow:inset 0 0 0 3px $F00;
+  }
+
+  &.disabled {
+    cursor: default;
+    pointer-events: none;
+    color: $D10-30;
+  }
+}
+
+.skin {
+  &-standard {
+
+  }
+
+  &-dark {
+
+  }
+
+  &-destructive {
+
+  }
+}
+
+.text {
+  margin: 0 0 0 6px;
+}
+
+.prefixIcon {
+  flex-shrink: 0;
+}
+
+@include withRTL() {
+  .text {
+    margin: 0 6px 0 0;
+  }
+}

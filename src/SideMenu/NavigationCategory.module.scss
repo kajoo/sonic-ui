@@ -1,0 +1,14 @@
+@import '../common';
+
+.category {
+  display: block;
+  // display: flex;
+  // flex-direction: column;
+
+  .content {
+    display: block;
+    // display: flex;
+    // flex-direction: row;
+    padding: 6px 30px;
+  }
+}

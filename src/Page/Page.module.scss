@@ -1,0 +1,20 @@
+@import '../common.scss';
+
+.page {
+  position: relative;
+  width: 100%;
+  // display: flex;
+  // flex-direction: column;
+  // flex-grow: 1;
+  padding: 10px 20px;
+  height: 100%;
+
+  .pageContent {
+    // display: flex;
+    // flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: calc(100% - 100px);
+    overflow-y: scroll;
+  }
+}

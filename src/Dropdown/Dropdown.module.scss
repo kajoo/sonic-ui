@@ -1,0 +1,13 @@
+@import '../common.scss';
+
+.showPointer, .showPointer input {
+  cursor: pointer;
+}
+
+.noBorder {
+  border: none;
+
+  > div {
+    border: none;
+  }
+}

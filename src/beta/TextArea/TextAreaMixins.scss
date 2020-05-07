@@ -1,0 +1,14 @@
+@mixin BoxSizing($boxSizing: border-box) {
+  box-sizing: $boxSizing;
+  * { box-sizing: $boxSizing; }
+}
+
+@mixin ThemeDefault($borderColor, $backgroundColor, $color) {
+  border-color: $borderColor;
+  background-color: $backgroundColor;
+  color: $color;
+
+  .textArea {
+    color: $color;
+  }
+}

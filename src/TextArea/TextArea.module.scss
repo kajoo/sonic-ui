@@ -1,0 +1,56 @@
+@import '../common.scss';
+
+$input-area-padding-exclamation: 34px;
+$input-area-padding-horizontal: 12px;
+$input-area-padding-top: 6px;
+
+.wrapper {
+  position: relative;
+}
+
+.root {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  border: solid 1px;
+  border-radius: 6px;
+
+  &.disabled textarea::placeholder {
+    color: $greyblue;
+  }
+}
+
+.textArea {
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 20px;
+  min-height: 36px;
+  padding: $input-area-padding-top $input-area-padding-horizontal;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  // @include TextSizeAndFontFamily($size: medium, $weight: normal);
+  //
+  // @include Placeholder(getTextColor($light: true, $secondary: true));
+  // @include Selection($paletteB4);
+}
+
+.resizable > textarea {
+  resize: vertical;
+}
+
+.nonResizable > textarea {
+  resize: none;
+}
+
+.hasError > .textArea {
+  padding-right: $input-area-padding-exclamation;
+}
+
+@include withRTL() {
+  .hasError > .inputArea {
+    padding-left: $input-area-padding-exclamation;
+    padding-right: $input-area-padding-horizontal;
+  }
+}

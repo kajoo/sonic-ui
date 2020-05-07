@@ -1,0 +1,16 @@
+@import '../colors.scss';
+
+.item {
+  padding: 20px 15px;
+  text-decoration: none;
+
+  &.active {
+    // color: $cta;
+  }
+
+  .title {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+}

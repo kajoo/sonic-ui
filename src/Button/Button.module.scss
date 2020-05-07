@@ -1,0 +1,160 @@
+@import '../common.scss';
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+
+  box-sizing: border-box;
+  text-align: center;
+  // border: 1px solid;
+
+  // render as anchor overrides
+  text-decoration: none;
+  user-select: none;
+
+  border: 0;
+  background-color: $blue;
+  color: white;
+  padding: 6px 12px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  font-size: 1rem;
+
+  .content {
+    display: flex;
+    align-items: center;
+  }
+
+  &:hover {
+    background-color: $lightblue;
+  }
+
+  &:active {
+
+  }
+}
+
+// Theme
+
+.theme {
+  &-standard {
+    background-color: $B10;
+    border-color: $B10;
+    color: $D80;
+
+    &.secondary {
+
+    }
+  }
+}
+
+// Sizes
+
+.large {
+  height: 42px;
+  min-width: 102px;
+  padding: 0 29px;
+
+  .prefix {
+    margin: 0 12px 0 -12px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .suffix {
+    margin: 0 -12px 0 12px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.medium {
+  height: 36px;
+  min-width: 84px;
+  // border-radius: 18px;
+  border-radius: 4px;
+  padding: 0 23px;
+
+  .prefix {
+    margin: 0 6px 0 -12px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .suffix {
+    margin: 0 -12px 0 6px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.small {
+  height: 30px;
+  min-width: 72px;
+  // border-radius: 15px;
+  border-radius: 4px;
+  padding: 0 17px;
+
+  .prefix {
+    margin: 0 6px 0 -6px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .suffix {
+    margin: 0 -6px 0 6px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.tiny {
+  height: 24px;
+  min-width: 60px;
+  line-height: 16px;
+  // border-radius: 18px;
+  border-radius: 4px;
+  padding: 0 11px;
+
+  .prefix {
+    margin: 0 3px 0 -6px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .suffix {
+    margin: 0 -6px 0 3px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+// Other
+
+.outlined {
+  border: $blue;
+  background-color: transparent;
+  color: $blue;
+
+  &:hover {
+    background-color: $blue;
+    color: white;
+  }
+}
+
+.disabled {
+  cursor: default;
+  background-color: $D55;
+  border-color: $D55;
+  color: $D80;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+@include withRTL {
+}

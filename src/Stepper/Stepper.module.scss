@@ -1,0 +1,22 @@
+@import '../colors.scss';
+
+.root {
+  display: flex;
+}
+
+.stepSplitter {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding-right: 6px;
+  cursor: default;
+  color: $D55;
+}
+
+.stepContainer {
+  min-width: 0;
+
+  &.selected {
+    flex-shrink: 0;
+  }
+}

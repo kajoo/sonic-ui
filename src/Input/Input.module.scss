@@ -1,0 +1,603 @@
+@import '../common.scss';
+@import './InputMixins.module.scss';
+// @import '../typography-helpers.scss';
+
+$gap: 6px;
+$double-gap: 12px;
+$material-gap: 8px;
+
+.root {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: solid 1px;
+  border-radius: 6px;
+  @include BoxSizing();
+  // @include FontRoman();
+  &.readOnly {
+    border: solid 1px $D60;
+    background-color: $D70;
+    @include ThemeHover($backgroundColor: $B50);
+  }
+}
+
+.inputWrapper {
+  display: flex;
+  width: 100%;
+  padding: 0 $gap;
+}
+
+.size-large {
+  .input-wrapper {
+    padding: 0 $double-gap;
+  }
+}
+
+.input {
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 24px;
+  padding: 0 $gap;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  line-height: 1.5;
+  background: transparent;
+  box-shadow: none;
+  @include BorderRadius(6px);
+  // @include FontRoman();
+  @include Placeholder($D40);
+  @include Selection($B40); // TODO
+
+  &[type='number'] {
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
+  &.disabled {
+    @include Placeholder($D10-30);
+  }
+}
+
+// Remove IE10+ automatically x button
+.input::-ms-clear {
+  display: none;
+}
+
+// remove safari autofill icon
+.input::-webkit-contacts-auto-fill-button {
+  display: none !important;
+}
+
+.suffixes {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  flex-grow: 0;
+  min-width: 0;
+  user-select: none !important;
+  height: 100%;
+}
+
+.suffix {
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  &:last-child .unit {
+    padding-right: $double-gap;
+  }
+}
+
+.roundInput {
+  // `medium` is the new `normal` by Zeplin. For now supporting both
+  &.size-normal,
+  &.size-medium {
+    @include BorderRadius(18px);
+  }
+  &.size-small {
+    @include BorderRadius(15px);
+  }
+  &.size-large {
+    @include BorderRadius(30px);
+  }
+}
+
+.noRightBorderRadius {
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.noLeftBorderRadius {
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+
+.size {
+  &-small {
+    @include Size($height: 30px, $fontSize: 14px);
+  }
+  &-small-with-selection {
+    @include Size($height: 28px, $fontSize: 14px);
+  }
+  // `medium` is the new `normal` by Zeplin. For now supporting both
+  &-normal,
+  &-medium {
+    @include Size($height: 36px, $fontSize: 16px);
+  }
+  // `medium` is the new `normal` by Zeplin. For now supporting both
+  &-normal-with-selection,
+  &-medium-with-selection {
+    @include Size($height: 34px, $fontSize: 16px);
+  }
+  &-large {
+    @include Size($height: 60px, $fontSize: 16px);
+  }
+  &-large-with-selection {
+    @include Size($height: 58px, $fontSize: 16px);
+  }
+}
+
+.theme {
+  // `medium` is the new `normal` by Zeplin. For now supporting both
+  &-normal,
+  &-medium {
+    @include ThemeDefault(
+      $color: $D10,
+      $borderColor: $B30,
+      $backgroundColor: $D80
+    );
+    @include ThemeHover($backgroundColor: $B50);
+    @include ThemeFocus($borderColor: $B10, $boxShadow: 0 0 0 3px $F00);
+    @include ThemeError($borderColor: $R10);
+    @include ThemeWarning($borderColor: $R70);
+    @include ThemeDisable(
+      $borderColor: $D10-20,
+      $backgroundColor: $D80,
+      $color: $D10-30
+    );
+  }
+
+  &-paneltitle {
+    @include ThemeDefault(
+      $color: white,
+      $borderColor: $B30,
+      $backgroundColor: rgba(22, 45, 61, 0.6)
+    );
+    @include ThemeHover($backgroundColor: rgba(22, 45, 61, 0.4));
+    @include ThemeFocusPanelTile(
+      $borderColor: $B20,
+      $boxShadow: inset 0 0 5px 0 rgba(56, 153, 236, 0.6)
+    );
+    @include ThemeError($borderColor: $R10);
+    @include ThemeWarning($borderColor: $R70);
+    @include ThemeDisable(
+      $borderColor: $D10-20,
+      $backgroundColor: $D80,
+      $color: $D10-30
+    );
+  }
+
+  &-tags {
+    @include ThemeDefault(
+      $color: $D10,
+      $borderColor: $B30,
+      $backgroundColor: transparent
+    );
+    @include ThemeHover($backgroundColor: $B50);
+    @include ThemeFocus($borderColor: transparent, $boxShadow: none);
+    @include ThemeError(
+      $borderColor: $R10,
+      $boxShadow: inset 0px 0px 5px 0px fade($R10, 60%)
+    );
+    @include ThemeWarning(
+      $borderColor: $R70,
+      $boxShadow: inset 0px 0px 5px 0px fade($R70, 60%)
+    );
+    @include ThemeDisable(
+      $borderColor: $D10-20,
+      $backgroundColor: $D80,
+      $color: $D10-30
+    );
+  }
+
+  &-amaterial {
+    .errorIcon {
+      padding: 0 6px 16px;
+      color: #f2564d;
+    }
+
+    border: 0;
+    // `medium` is the new `normal` by Zeplin. For now supporting both
+    &.size-normal,
+    &.size-medium {
+      padding-bottom: 4px;
+      @include Size($height: 34px, $fontSize: 20px);
+    }
+
+    label,
+    .input {
+      color: #43515c;
+    }
+
+    label {
+      font-size: 20px;
+      transition: all 0.2s ease-in-out;
+      position: absolute;
+      top: 2px;
+      padding: 0 12px;
+    }
+
+    .input {
+      // @include FontLight();
+      opacity: 0;
+      z-index: 1;
+      transition: border-bottom 0.3s, border-color 0.3s, border-width 0.3s,
+        border 0.3s, opacity 0s ease-in-out;
+      line-height: 1;
+      display: block;
+      margin-top: 0;
+
+      background: none;
+      border-radius: 0;
+      border-style: solid; // Firefox fix
+
+      // Fix number inputs in Firefox to be full-width
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    &.hasFocus,
+    &.hasValue {
+      .input {
+        @include Placeholder($D50);
+        transition: opacity 0.3s ease-in-out;
+        opacity: 1;
+      }
+      input {
+        border-bottom: 0;
+      }
+
+      .bar {
+        &:before,
+        &:after {
+          height: 2px;
+          background-color: $B10;
+        }
+      }
+      label {
+        top: -22px;
+        font-size: 14px;
+      }
+    }
+
+    .bar {
+      position: absolute;
+      bottom: 0;
+      left: -1px;
+      right: -1px;
+      height: 1px;
+      background: $D60;
+      &:before,
+      &:after {
+        content: '';
+        height: 1px;
+        width: 0;
+        bottom: 0;
+        position: absolute;
+        background: #000;
+        transition: 0.3s all;
+      }
+      transition: 0.3s ease all;
+    }
+    @at-root {
+      .hasFocus .barBlue:before,
+      .hasFocus .barBlue:after {
+        width: 100%;
+      }
+    }
+    &:hover:not(.disabled) {
+      .bar,
+      .input:hover ~ .barBlue,
+      .input.hasHover ~ .barBlue {
+        background-color: #000;
+        transition: 0.3s ease all;
+      }
+    }
+
+    &.hasError {
+      .bar,
+      .input:hover ~ .barBlue,
+      .input.hasHover ~ .barBlue {
+        background-color: #f2564d;
+        height: 2px;
+      }
+    }
+    &.hasWarning {
+      .bar,
+      .input:hover ~ .barBlue,
+      .input.hasHover ~ .barBlue {
+        background-color: #fdb10c;
+        height: 2px;
+      }
+    }
+  }
+
+  &-material {
+    border-radius: 0;
+    .suffixes {
+      padding: 0 4px;
+    }
+    // `medium` is the new `normal` by Zeplin. For now supporting both
+    &.size-normal,
+    &.size-medium {
+      @include Size($height: 34px, $fontSize: 18px);
+    }
+    .input {
+      // @include FontLight();
+      padding: 0 $material-gap;
+    }
+    @include ThemeDefault(
+      $color: $D10,
+      $borderColor: transparent,
+      $backgroundColor: $D80
+    );
+    .bar {
+      position: absolute;
+      bottom: 0;
+      left: -1px;
+      right: -1px;
+      height: 1px;
+      background: $D60;
+      &:before,
+      &:after {
+        content: '';
+        height: 1px;
+        width: 0;
+        bottom: 0;
+        position: absolute;
+        background: $D50;
+        transition: 0.2s ease all;
+      }
+      &:before {
+        left: 50%;
+      }
+      &:after {
+        right: 50%;
+      }
+    }
+    @at-root {
+      .hasFocus .barBlack:before,
+      .hasFocus .bar:after {
+        width: 50%;
+      }
+    }
+    &.hasError {
+      .bar {
+        background: $R05;
+        &:before,
+        &:after {
+          background: $R05;
+        }
+      }
+    }
+
+    &.hasWarning {
+      .bar {
+        background: $R70;
+        &:before,
+        &:after {
+          background: $R70;
+        }
+      }
+    }
+  }
+
+  &-flat {
+    border: none;
+    border-radius: 0;
+
+    &.size-large {
+      @include Size($height: 54px, $fontSize: 16px);
+    }
+
+    &:hover,
+    &.hasFocus {
+      @include ThemeFlat($B20);
+    }
+    &:active {
+      @include ThemeFlat($B10);
+    }
+    &.disabled {
+      @include ThemeFlat($D10-30);
+    }
+
+    @include ThemeFlat($D20);
+  }
+
+  &-flatdark {
+    border: none;
+    border-radius: 0;
+
+    &.size-large {
+      @include Size($height: 54px, $fontSize: 16px);
+    }
+
+    &:hover,
+    &.hasFocus {
+      @include ThemeFlat($B20);
+    }
+    &:active {
+      @include ThemeFlat($B10);
+    }
+    &.disabled {
+      @include ThemeFlat($D80-70);
+    }
+
+    @include ThemeFlat($D80);
+  }
+}
+
+// RTL layout based on global style set on document body or parent element.
+@include withRTL() {
+  .root,
+  .input-wrapper,
+  .suffixes {
+    direction: rtl;
+  }
+  .input {
+    direction: rtl;
+
+    &.withPrefix {
+      padding-right: 0;
+      padding-left: $double-gap;
+    }
+    &.withSuffix {
+      padding-left: 0;
+      padding-right: $double-gap;
+    }
+  }
+
+  .prefix,
+  .suffix {
+    &:last-child .unit {
+      padding-left: $double-gap;
+      padding-right: $gap;
+    }
+  }
+}
+
+// RTL layout based on a property passed directly to the component.
+.rtl.root {
+  direction: rtl;
+  .suffixes {
+    direction: rtl;
+  }
+  .input {
+    direction: rtl;
+  }
+}
+
+.magnifying-glass {
+  margin: 0 $gap;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  path {
+    fill: $B10;
+  }
+  line {
+    stroke: $B10;
+  }
+
+  &[disabled] {
+    path {
+      fill: $D55;
+    }
+    line {
+      stroke: $D55;
+    }
+  }
+}
+
+.exclamation {
+  margin: 0 $gap;
+
+  &.narrow {
+    margin: 0;
+  }
+}
+
+.warningExclamation {
+  margin: 0 $gap;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+
+  &.narrow {
+    margin: 0;
+  }
+
+  > svg {
+    color: $R70;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.help {
+  margin: 0 $gap;
+  color: $B20;
+  display: flex;
+}
+
+@include withRTL() {
+  .help,
+  .amaterial-help {
+    transform: scaleX(-1);
+  }
+}
+
+.amaterial-help {
+  margin: 0 $gap;
+  color: $B20;
+  display: flex;
+}
+
+.clear-button {
+  line-height: 0;
+  background: $B50;
+  border-radius: 12px;
+}
+
+//needs display:block to fix inputs with prefix in ie11
+.unit {
+  padding: 0 $gap;
+  color: $D40;
+  // @include FontRoman();
+  display: block;
+}
+
+.menu-arrow {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 $double-gap;
+  margin-top: 1px;
+  path {
+    fill: $B10;
+  }
+
+  &[disabled] {
+    path {
+      fill: $D10-30;
+    }
+  }
+}
+
+.roundInput .menu-arrow {
+  padding: 0 $double-gap;
+}
+
+.materialTitle {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  // @include Text($weight: thin, $size: medium, $secondary: true);
+}
+
+.loaderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 $gap;
+}

@@ -1,0 +1,39 @@
+@import '../common.scss';
+
+.root {
+  position: relative;
+  display: inline-block;
+
+  .avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+
+    img.content {
+      height: inherit;
+      width: inherit;
+      border-radius: inherit;
+    }
+  }
+
+  .presence {
+    border: 2px solid $D80;
+    position: absolute;
+    border-radius: 50px;
+    top: 0;
+    right: 0;
+
+    &.online {
+      background-color: $G10;
+    }
+    &.offline {
+      background-color: $R10;
+    }
+    &.busy {
+      background-color: $Y10;
+    }
+  }
+}

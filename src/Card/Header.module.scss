@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26px 30px;
+}
+
+.titleWrapper {
+  min-width: 0;
+
+  .title {
+    display: block;
+  }
+}

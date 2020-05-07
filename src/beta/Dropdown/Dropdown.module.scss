@@ -1,0 +1,52 @@
+@import '../../common.scss';
+
+.root {
+  position: relative;
+  display: block;
+}
+
+.nativeSelect {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 36px;
+  appearance: none;
+  background: transparent;
+  color: transparent;
+
+  &:not(:focus) {
+    border: transparent;
+  }
+
+  .nativeOption {
+    color: $D10;
+  }
+}
+
+.content {
+  width: 100%;
+  display: none;
+  position: absolute;
+  background-color: white;
+  border-radius: 6px;
+  z-index: 1;
+  box-shadow: 0 6px 6px 0 rgba(22,45,61,0.06), 0 0 18px 0 rgba(22,45,61,0.12);
+
+  &.contentVisible {
+    display: block;
+  }
+
+  .option {
+    width: 100%;
+    padding: 8px 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    text-align: left;
+
+    &.hovered {
+      background-color: $B50;
+    }
+  }
+}

@@ -1,0 +1,193 @@
+@import '../common.scss';
+@import '../common/Focusable/Focusable';
+
+$radioButtonCheckedShadow: $B10 0 0 0 1px;
+$radioButtonDisabledShadow: $B50 0 0 0 1px;
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.horizontal {
+  display: flex;
+}
+
+.horizontal .radioWrapper > label {
+  margin-right: 20px;
+}
+
+.radioWrapper {
+  &:not(.checked) {
+    .radio:hover:not(:active) {
+      background-color: $B40;
+    }
+  }
+}
+
+.radioWrapper,
+.radioWrapper > * {
+  cursor: initial;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.radioWrapper > input {
+  display: none;
+}
+
+.radioWrapper > label {
+  display: flex;
+  flex-direction: row;
+  cursor: default;
+}
+
+.radioWrapper.disabled > label {
+  cursor: default;
+  pointer-events: none;
+}
+
+.radioWrapper > label.vcenter {
+  align-items: center;
+}
+
+#{$focusable-focus-visible}.radioWrapper {
+  .radio {
+    @include FocusBox;
+  }
+}
+.horizontal .children {
+  padding-left: 6px;
+}
+
+.children {
+  padding-left: 12px;
+}
+
+.radio {
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  min-width: 16px;
+  height: 16px;
+  border: 1px solid $B10;
+  background-color: $D80;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.disabled {
+  .radio {
+    color: $D10-30;
+    border-color: $D10-30;
+    background-color: $D10-05;
+  }
+
+  &.checked .radio:after {
+    background-color: $D10-30;
+  }
+}
+
+.radio:after,
+.radio:after {
+  content: '';
+  display: block;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  top: 0;
+  left: 0;
+  margin: 2px;
+}
+
+.checked:not(.disabled) .radioButtonChecked:after {
+  background-color: $B10;
+}
+
+.radio:active:after {
+  background-color: $B20;
+}
+
+button.radioButton {
+  min-width: 105px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: none;
+  padding: 0;
+  line-height: 0;
+  background: $D80;
+  outline: 0;
+  color: $D10;
+
+  & + & {
+    margin-left: 1px;
+  }
+
+  &:disabled {
+    cursor: initial;
+    color: $D50;
+  }
+
+  &.checked {
+    box-shadow: $radioButtonCheckedShadow;
+
+    &:disabled {
+      box-shadow: $radioButtonDisabledShadow;
+    }
+  }
+
+  &:hover {
+    background: $B50;
+
+    &.checked,
+    &:disabled {
+      background: $D80;
+    }
+  }
+
+  > * {
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+}
+
+.buttonType {
+  border: solid 1px $B40;
+  border-radius: 6px;
+}
+
+.radio-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@include withRTL() {
+  .horizontal .radioWrapper > label {
+    margin-left: 20px;
+  }
+
+  .radioWrapper {
+    direction: rtl;
+  }
+
+  .children {
+    padding-right: 12px;
+  }
+
+  button.radioButton {
+    flex-direction: row-reverse;
+
+    & + & {
+      margin-left: 0;
+      margin-right: 1px;
+    }
+  }
+
+  .buttonType {
+    flex-direction: row-reverse;
+  }
+}

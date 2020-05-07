@@ -1,0 +1,142 @@
+@import '../common.scss';
+
+@mixin BoxSizing($boxSizing: border-box) {
+  box-sizing: $boxSizing;
+  * {
+    box-sizing: $boxSizing;
+  }
+}
+
+@mixin Size($height, $fontSize) {
+  height: $height;
+  font-size: $fontSize;
+  .input {
+    display: block;
+    font-size: $fontSize;
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 $height white inset;
+      box-shadow: 0 0 0 $height white inset;
+    }
+    &::placeholder {
+      font-size: $fontSize;
+      opacity: initial;
+    }
+  }
+
+  .prefix,
+  .suffix {
+    height: $height;
+    line-height: $height;
+  }
+}
+
+@mixin ThemeDefault($borderColor, $backgroundColor, $color) {
+  border-color: $borderColor;
+  background-color: $backgroundColor;
+  color: $color;
+  .input {
+    color: $color;
+  }
+}
+
+@mixin BorderRadius($borderRadius) {
+  border-radius: $borderRadius;
+  &:-webkit-autofill {
+    border-radius: $borderRadius;
+  }
+}
+
+@mixin ThemeHover($backgroundColor) {
+  &:hover:not(.hasFocus):not(.disabled) {
+    background-color: $backgroundColor;
+  }
+  &.hasHover:not(.disabled) {
+    background-color: $backgroundColor;
+  }
+  &:hover.readOnly:not(.disabled) {
+    border: solid 1px $B30;
+  }
+  &:hover.readOnly.disabled {
+    border: solid 1px $D60;
+  }
+}
+
+@mixin ThemeDisable($borderColor, $backgroundColor, $color) {
+  &.disabled {
+    border-color: $borderColor;
+    background-color: $backgroundColor;
+    color: $color;
+    .input,
+    .unit {
+      color: $color;
+    }
+  }
+}
+
+@mixin ThemeFlat($color) {
+  .input {
+    @include Placeholder($color: $color);
+    color: $color;
+  }
+  .menu-arrow path {
+    fill: $color;
+  }
+}
+
+@mixin ThemeFocus($borderColor, $boxShadow) {
+  &.hasFocus {
+    @include FocusBox($borderColor, $boxShadow);
+
+    &.hasError {
+      @include FocusBoxError;
+    }
+    &.hasWarning {
+      @include FocusBoxWarning;
+    }
+  }
+}
+
+@mixin ThemeFocusPanelTile($borderColor, $boxShadow: none) {
+  &.hasFocus {
+    border-color: $borderColor;
+    box-shadow: $boxShadow;
+  }
+}
+
+@mixin ThemeError($borderColor, $boxShadow: none) {
+  &.hasError {
+    border-color: $borderColor;
+    box-shadow: $boxShadow;
+  }
+}
+
+@mixin ThemeWarning($borderColor, $boxShadow: none) {
+  &.hasWarning {
+    border-color: $borderColor;
+    box-shadow: $boxShadow;
+  }
+}
+
+@mixin Selection($color) {
+  &::selection {
+    background: $color;
+  }
+  &::-moz-selection {
+    background: $color;
+  }
+}
+
+@mixin Placeholder($color) {
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+  &:-moz-placeholder {
+    color: $color;
+  }
+  &::-moz-placeholder {
+    color: $color;
+  }
+  &:-ms-input-placeholder {
+    color: $color !important;
+  }
+}

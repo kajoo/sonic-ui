@@ -1,0 +1,48 @@
+@import '../common.scss';
+
+// TODO: check with original
+.root {
+  display: block;
+
+  &.popoverContent {
+    overflow: hidden;
+
+    min-width: 192px;
+    width: 100%;
+
+    &.withWidth {
+      min-width: inherit;
+      width: inherit;
+    }
+
+    &.withArrow {
+      padding: 10px 0;
+    }
+  }
+}
+
+.nativeSelectWrapper {
+  position: relative;
+}
+
+.nativeSelect {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 36px;
+  appearance: none;
+  background: transparent;
+  color: transparent;
+
+  &:not(:focus) {
+    border: transparent;
+  }
+
+  &:focus {
+    @include FocusBox();
+  }
+}
+
+.nativeOption {
+  color: $D10;
+}
