@@ -10,6 +10,7 @@ import { terser } from 'rollup-plugin-terser';
 import svgr from '@svgr/rollup';
 
 import * as draftJs from 'draft-js';
+import * as immutableJs from 'immutable';
 
 import pkg from './package.json';
 
@@ -50,6 +51,7 @@ export default {
     commonjs({
       namedExports: {
         'draft-js': Object.keys(draftJs),
+        'immutable': Object.keys(immutableJs),
       },
       exclude: ['node_modules/symbol-observable/es/*.js'],
     }),
