@@ -179,6 +179,7 @@ class Modal extends React.Component {
           isOpen={isOpen}
           className={classes}
           portalClassName={portalClasses}
+          bodyOpenClassName={styles.bodyOpen}
           style={modalStyles}
           shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
           contentLabel={contentLabel}

@@ -17,13 +17,13 @@ module.exports = {
         loose: false,
       },
     ],
-    [
-      '@babel/plugin-transform-runtime',
-      {
-        helpers: true,
-        regenerator: true,
-      },
-    ],
+    // [
+    //   '@babel/plugin-transform-runtime',
+    //   {
+    //     helpers: true,
+    //     regenerator: true,
+    //   },
+    // ],
   ],
   ignore: [
     './node_modules',
