@@ -209,8 +209,8 @@ class Input extends React.Component {
         ])
       : PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
 
-    /**
-     *  Don't call onChange on a controlled Input when user clicks the clear button.
+    /** Don't call onChange on a controlled Input when user clicks the clear button.
+     *  See https://github.com/wix/wix-style-react/issues/3122
      */
     updateControlledOnClear: PropTypes.bool,
   };
@@ -589,6 +589,7 @@ class Input extends React.Component {
       }
     } else {
       /* an older implementation that has a hack, it's currently enabled by default for backward compatibility
+       * see https://github.com/wix/wix-style-react/issues/3122
        */
       const prevValue = this.input.value;
       this.input.value = '';

@@ -4,6 +4,11 @@ import classNames from 'classnames';
 
 import styles from './Text.module.scss';
 
+/*
+ * Temporary fix: SIZES, SKINS, WEIGHTS constants are copied here from constants.js
+ * in order to have AutoDocs able to parse them.
+ * See this issue: https://github.com/wix/wix-ui/issues/784
+ */
 export const SIZES = {
   tiny: 'tiny',
   small: 'small',

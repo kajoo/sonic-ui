@@ -1,13 +1,11 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
-import nodePolyfills from 'rollup-plugin-node-polyfills';
 import postcss from 'rollup-plugin-postcss';
-import reactSvg from 'rollup-plugin-react-svg';
 import resolve from '@rollup/plugin-node-resolve';
 import url from '@rollup/plugin-url';
-import { terser } from 'rollup-plugin-terser';
 import svgr from '@svgr/rollup';
+import { terser } from 'rollup-plugin-terser';
 
 import * as draftJs from 'draft-js';
 import * as immutableJs from 'immutable';
@@ -29,12 +27,21 @@ export default {
       sourcemap: true,
       exports: 'named',
     },
+    {
+      file: pkg.browser,
+      format: 'umd',
+      name: '{{packageName}}',
+      globals: {
+        react: 'React',
+        'prop-types': 'PropTypes',
+      },
+    },
   ],
   external: [
     'events',
-  //   'react',
-  //   'react-dom',
-  //   'prop-types',
+    'react',
+    'react-dom',
+    'prop-types',
   ],
   plugins: [
     external(),
@@ -46,7 +53,6 @@ export default {
     babel({
       exclude: 'node_modules/**',
     }),
-    // nodePolyfills(),
     resolve(),
     commonjs({
       namedExports: {
@@ -55,6 +61,6 @@ export default {
       },
       exclude: ['node_modules/symbol-observable/es/*.js'],
     }),
-    // terser(),
+    terser(),
   ],
 };

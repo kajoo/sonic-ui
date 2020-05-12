@@ -78,7 +78,7 @@ class Column extends React.Component {
         data-hook={dataHook}
         children={children}
       />
-      );
+    );
   }
 
   isHidden(str) {

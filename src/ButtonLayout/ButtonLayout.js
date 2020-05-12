@@ -23,12 +23,12 @@ class ButtonLayout extends React.PureComponent {
      * Specify how the button itself should be rendered.
      * Make sure to apply all props to the root node and render children appropriately
      */
-    as: PropTypes.oneOfType([
+    tag: PropTypes.oneOfType([
       PropTypes.func,
       PropTypes.object,
       PropTypes.string,
     ]),
-    skin: PropTypes.oneOf(['standard', 'warning', 'danger', 'link']),
+    skin: PropTypes.oneOf(['standard', 'success', 'warning', 'danger', 'link']),
     action: PropTypes.oneOf(['primary', 'secondary']),
     /**
      * Size of button content
@@ -53,7 +53,7 @@ class ButtonLayout extends React.PureComponent {
   };
 
   static defaultProps = {
-    as: 'button',
+    tag: 'button',
     skin: 'standard',
     action: 'primary',
     size: 'medium',
@@ -73,7 +73,7 @@ class ButtonLayout extends React.PureComponent {
 
   render() {
     const {
-      as: Component,
+      tag: Component,
       skin,
       action,
       size,

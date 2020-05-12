@@ -27,7 +27,7 @@ class Button extends React.PureComponent {
      * Specify how the button itself should be rendered.
      * Make sure to apply all props to the root node and render children appropriately
      */
-    as: PropTypes.oneOfType([
+    tag: PropTypes.oneOfType([
       PropTypes.func,
       PropTypes.object,
       PropTypes.string,
@@ -74,23 +74,7 @@ class Button extends React.PureComponent {
 
   static defaultProps = {
     isLoading: false,
-    // as: 'button',
-    // action: 'primary',
-    // size: 'medium',
   };
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      hovered: false,
-    };
-
-    // this.addAffix = this.addAffix.bind(this);
-    // this.onClick = this.onClick.bind(this);
-    // this.onMouseEnter = this.onMouseEnter.bind(this);
-    // this.onMouseLeave = this.onMouseLeave.bind(this);
-  }
 
   render() {
     const { isLoading, children, ...props } = this.props;
@@ -119,48 +103,6 @@ class Button extends React.PureComponent {
         {isLoading ? <Loader style={style} /> : children}
       </ButtonLayout>
     );
-    /*
-    const {
-      defaultTheme,
-      as: Component,
-      size,
-      className,
-      children,
-      prefixIcon,
-      suffixIcon,
-      disabled,
-      fullWidth,
-      ...props
-    } = this.props;
-
-    // const style = buttonStyle(defaultTheme, this.props, this.state);
-
-    const classes = classNames(
-      styles.button,
-      {
-        [styles[`${size}`]]: true,
-        [styles.disabled]: disabled,
-        [styles.fullWidth]: fullWidth,
-      },
-      className,
-    );
-
-    return (
-      <Component
-        {...props}
-        className={classes}
-        disabled={disabled}
-        aria-disabled={disabled}
-        onClick={this.onClick}
-        onMouseEnter={this.onMouseEnter}
-        onMouseLeave={this.onMouseLeave}
-      >
-        {this.addAffix(prefixIcon, styles.prefix)}
-        <span className={styles.content}>{children}</span>
-        {this.addAffix(suffixIcon, styles.suffix)}
-      </Component>
-    );
-    */
   }
 }
 
