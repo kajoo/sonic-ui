@@ -39,16 +39,16 @@
     }
   }
   &-success {
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: #00e261;
+    border-color: #00e261;
     color: white;
 
     &.action-secondary {
       background-color: transparent;
-      color: #28a745;
+      color: #00e261;
 
       &:hover {
-        background-color: #28a745;
+        background-color: #00e261;
         color: white;
       }
     }

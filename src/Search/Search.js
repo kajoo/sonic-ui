@@ -5,7 +5,6 @@ import isEmpty from 'lodash/isEmpty';
 
 import InputMain from '../Input';
 // import InputWithOptions from '../InputWithOptions';
-// import SearchIcon from 'wix-ui-icons-common/Search';
 
 import Input from '../Input/Input';
 import styles from './Search.module.scss';

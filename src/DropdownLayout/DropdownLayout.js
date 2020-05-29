@@ -419,9 +419,9 @@ class DropdownLayout extends React.PureComponent {
     const optionClassName = classNames({
       [styles.option]: !overrideStyle,
       [styles.selected]: selected && !overrideStyle && selectedHighlight,
-      wixstylereactSelected: selected && overrideStyle, //global class for items that use the overrideStyle
+      stylereactSelected: selected && overrideStyle, //global class for items that use the overrideStyle
       [styles.hovered]: hovered && !overrideStyle,
-      wixstylereactHovered: hovered && overrideStyle, //global class for items that use the overrideStyle
+      stylereactHovered: hovered && overrideStyle, //global class for items that use the overrideStyle
       [styles.disabled]: disabled,
       [styles.title]: title,
       [styles.smallHeight]: itemHeight === 'small',

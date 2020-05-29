@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-// import FormFieldSpinnerUp from 'wix-ui-icons-common/system/FormFieldSpinnerUp';
-// import FormFieldSpinnerDown from 'wix-ui-icons-common/system/FormFieldSpinnerDown';
 
 import styles from './Ticker.module.scss';
 import { InputContext } from '../InputContext';

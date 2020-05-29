@@ -7,6 +7,7 @@ export { default as Card } from './Card';
 export { default as Checkbox } from './Checkbox';
 export { default as Collapse } from './Collapse';
 export { default as DragDropContextProvider } from './DragDropContextProvider';
+export { default as EmptyState } from './EmptyState';
 export { default as FormField } from './FormField';
 export {
   Container,

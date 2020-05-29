@@ -43,6 +43,7 @@ class Checkbox extends React.Component {
     size: PropTypes.oneOf(['medium']),
     onChange: PropTypes.func,
     children: PropTypes.node,
+    className: PropTypes.string,
     dataHook: PropTypes.string,
   };
 
@@ -74,6 +75,7 @@ class Checkbox extends React.Component {
       size,
       onChange,
       children,
+      className,
       dataHook,
     } = this.props;
 
@@ -88,6 +90,7 @@ class Checkbox extends React.Component {
         [styles.hover]: hover,
         [styles.disabled]: disabled,
       },
+      className,
     );
 
     return (

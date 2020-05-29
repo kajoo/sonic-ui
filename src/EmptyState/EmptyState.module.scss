@@ -1,0 +1,49 @@
+@import "../common.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.container {
+  max-width: 540px;
+}
+
+.titleContainer {
+  margin-bottom: 6px;
+}
+
+.childrenContainer {
+  margin-top: 18px;
+  display: flex;
+}
+
+.align {
+  &-start {
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  &-center {
+    text-align: center;
+    justify-content: center;
+  }
+
+  &-end {
+    text-align: right;
+    justify-content: flex-end;
+  }
+}
+
+@include withRTL() {
+  .align {
+    &-start {
+      text-align: right;
+    }
+
+    &-end {
+      text-align: left;
+    }
+  }
+}
