@@ -108,7 +108,7 @@ class TextArea extends React.PureComponent {
   };
 
   static defaultProps = {
-    theme: 'material',
+    theme: 'normal',
     minRowsAutoGrow: TextArea.MIN_ROWS,
   };
 

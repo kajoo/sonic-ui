@@ -9,4 +9,4 @@
 
 'use strict';
 
-export { default } from './PopoverCore';
+export { default } from './CloseButton';

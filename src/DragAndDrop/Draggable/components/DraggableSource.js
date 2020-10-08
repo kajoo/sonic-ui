@@ -193,6 +193,7 @@ class DraggableSource extends React.Component {
       connectDragSource,
       withHandle,
       renderItem,
+      index,
       id,
       item,
       delayed,
@@ -200,6 +201,7 @@ class DraggableSource extends React.Component {
 
     const content = withHandle
       ? renderItem({
+          index,
           id,
           item,
           isPlaceholder: isDragging,
@@ -213,6 +215,7 @@ class DraggableSource extends React.Component {
         })
       : connectDragSource(
           renderItem({
+            index,
             id,
             item,
             isPlaceholder: isDragging,
@@ -232,8 +235,9 @@ class DraggableSource extends React.Component {
   };
 
   _renderPreview = ({ previewStyles }) => {
-    const { renderItem, id, item, delayed } = this.props;
+    const { renderItem, index, id, item, delayed } = this.props;
     return renderItem({
+      index,
       id,
       item,
       previewStyles: { width: this.state.itemWidth, ...previewStyles },

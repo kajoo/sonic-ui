@@ -7,6 +7,8 @@ export { default as Card } from './Card';
 export { default as Checkbox } from './Checkbox';
 export { default as Collapse } from './Collapse';
 export { default as DragDropContextProvider } from './DragDropContextProvider';
+export { default as Dropdown } from './Dropdown';
+export { default as DropdownBase } from './DropdownBase';
 export { default as EmptyState } from './EmptyState';
 export { default as FormField } from './FormField';
 export {
@@ -23,17 +25,21 @@ export {
   MessageBoxFunctionalLayout,
 } from './MessageBox';
 export { default as Modal } from './Modal';
+export { default as MultiSelect } from './MultiSelect';
 export {
   NotificationManager,
   NotificationContainer,
 } from './NotificationList';
 export { default as Page } from './Page';
+export { default as Popover } from './Popover';
+export { default as PopoverMenu } from './PopoverMenu';
 export { default as RadioGroup } from './RadioGroup';
 export { default as RichTextArea } from './RichTextArea';
 export { default as SortableList } from './SortableList';
 export { default as Table } from './Table';
 export { default as TableToolbar } from './TableToolbar';
 export { default as Tabs } from './Tabs';
+export { default as Tag } from './Tag';
 export { default as Text } from './Text';
 export { default as Search } from './Search';
 export { default as SideMenu } from './SideMenu';
@@ -45,4 +51,3 @@ export {
 } from './themes';
 
 export { default as TextArea } from './beta/TextArea';
-export { default as Dropdown } from './beta/Dropdown';

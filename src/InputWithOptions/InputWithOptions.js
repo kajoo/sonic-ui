@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import uniqueId from 'lodash/uniqueId';
 import omit from 'omit';
 
 import Input from '../Input';
+import Popover from '../Popover';
+import Highlighter from '../Highlighter/Highlighter';
 import DropdownLayout, {
   DIVIDER_OPTION_VALUE,
+  propTypes as DropdownLayoutPropTypes,
 } from '../DropdownLayout/DropdownLayout';
-import Highlighter from '../Highlighter/Highlighter';
-import { chainEventHandlers } from '../utils/ChainEventHandlers';
 import styles from './InputWithOptions.module.scss';
 import nativeStyles from './InputWithOptions.module.scss';
 import { placements } from '../Popover/constants';
-
-import Popover from '../Popover';
+import { chainEventHandlers } from '../utils/ChainEventHandlers';
 
 export const DEFAULT_VALUE_PARSER = option => option.value;
 
@@ -23,8 +24,9 @@ const DEFAULT_POPOVER_PROPS = {
   fixed: true,
   placement: 'bottom',
 };
+console.log(DropdownLayoutPropTypes);
 
-class InputWithOptions extends React.Component {
+class InputWithOptions extends Component {
   static displayName = 'InputWithOptions';
 
   static propTypes = {
@@ -34,6 +36,8 @@ class InputWithOptions extends React.Component {
     inputElement: PropTypes.element,
     closeOnSelect: PropTypes.bool,
     onManuallyInput: PropTypes.func,
+    onOptionsShow: PropTypes.func,
+    onOptionsHide: PropTypes.func,
     /** Function that receives an option, and should return the value to be displayed. By default returns `option.value`. */
     valueParser: PropTypes.func,
     dropdownWidth: PropTypes.string,
@@ -45,12 +49,7 @@ class InputWithOptions extends React.Component {
     native: PropTypes.bool,
     /** common popover props */
     popoverProps: PropTypes.shape({
-      appendTo: PropTypes.oneOf([
-        'window',
-        'scrollParent',
-        'parent',
-        'viewport',
-      ]),
+      appendTo: PropTypes.oneOf(['window', 'scrollParent', 'parent', 'viewport']),
       maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       minWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       flip: PropTypes.bool,
@@ -72,9 +71,9 @@ class InputWithOptions extends React.Component {
     popoverProps: DEFAULT_POPOVER_PROPS,
     dropdownOffsetLeft: '0',
     showOptionsIfEmptyInput: true,
-    magnifyingGlass: false,
     autocomplete: 'off',
     native: false,
+    classes: {},
   };
 
   // Abstraction
@@ -95,7 +94,6 @@ class InputWithOptions extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       inputValue: props.value || '',
       showOptions: false,
@@ -103,6 +101,7 @@ class InputWithOptions extends React.Component {
       isEditing: false,
     };
 
+    this.uniqueId = uniqueId('InputWithOptions');
     this._onSelect = this._onSelect.bind(this);
     this._onFocus = this._onFocus.bind(this);
     this._onBlur = this._onBlur.bind(this);
@@ -128,23 +127,74 @@ class InputWithOptions extends React.Component {
     ) {
       this.showOptions();
     }
+
+    // Clear value in controlled mode
+    if (prevProps.value !== this.props.value && this.props.value === '') {
+      this.setState({ inputValue: '' });
+    }
   }
 
   onCompositionChange(isComposing) {
     this.setState({ isComposing });
   }
 
-  onClickOutside = () => this.hideOptions();
+  onClickOutside = () => {
+    // Hide the popover
+    this.hideOptions();
 
-  renderInput() {
+    // Trigger the ClickOutside callback
+    if (this.props.onClickOutside) {
+      this.props.onClickOutside();
+    }
+  };
+
+  render() {
+    const {
+      native,
+      dataHook,
+      popoverProps,
+      dropDirectionUp,
+      dropdownWidth,
+      withWidth,
+      classes,
+    } = this.props;
+    const placement = dropDirectionUp ? 'top' : popoverProps.placement;
+    const body = popoverProps.appendTo === 'window';
+
+    return !native ? (
+      <Popover
+        className={classNames(styles.root, {
+          [styles.withWidth]: withWidth,
+        }, classes.root)}
+        popoverContentClassName={styles.popoverContent}
+        {...DEFAULT_POPOVER_PROPS}
+        dynamicWidth={body}
+        excludeClass={this.uniqueId}
+        {...popoverProps}
+        width={dropdownWidth}
+        placement={placement}
+        dataHook={dataHook}
+        onKeyDown={this._onKeyDown}
+        onClickOutside={this.onClickOutside}
+        shown={this.isDropdownLayoutVisible()}
+      >
+        <Popover.Element>
+          <div data-input-parent className={this.inputClasses()}>
+            {this._renderInput()}
+          </div>
+        </Popover.Element>
+        <Popover.Content>{this._renderDropdownLayout()}</Popover.Content>
+      </Popover>
+    ) : (
+      this._renderNativeSelect()
+    );
+  }
+
+  _renderInput() {
     const inputAdditionalProps = this.inputAdditionalProps();
     const inputProps = Object.assign(
       omit(
-        Object.keys(DropdownLayout.propTypes).concat([
-          'onChange',
-          'dataHook',
-          'magnifyingGlass',
-        ]),
+        Object.keys(DropdownLayoutPropTypes).concat(['onChange', 'dataHook']),
         this.props,
       ),
       inputAdditionalProps,
@@ -152,13 +202,12 @@ class InputWithOptions extends React.Component {
 
     const { inputElement } = inputProps;
     return React.cloneElement(inputElement, {
-      menuArrow: !this.props.magnifyingGlass,
+      menuArrow: true,
       ref: input => (this.input = input),
       ...inputProps,
       onKeyDown: chainEventHandlers(
         inputAdditionalProps && inputAdditionalProps.onKeyDown,
       ),
-      theme: this.props.theme,
       onChange: this._onChange,
       onInputClicked: this._onInputClicked,
       onFocus: this._onFocus,
@@ -167,6 +216,7 @@ class InputWithOptions extends React.Component {
       width: inputElement.props.width,
       textOverflow: this.props.textOverflow || inputElement.props.textOverflow,
       tabIndex: this.props.native ? -1 : 0,
+      className: this.props.classes.input,
     });
   }
 
@@ -191,10 +241,6 @@ class InputWithOptions extends React.Component {
         });
   }
 
-  isDropdownLayoutVisible = () =>
-    this.state.showOptions &&
-    (this.props.showOptionsIfEmptyInput || this.state.inputValue.length > 0);
-
   _renderDropdownLayout() {
     const inputOnlyProps = omit(['tabIndex'], Input.propTypes);
     const dropdownProps = Object.assign(
@@ -206,7 +252,7 @@ class InputWithOptions extends React.Component {
 
     return (
       <div
-        className={this.dropdownClasses()}
+        className={`${this.uniqueId} ${this.dropdownClasses()}`}
         style={customStyle}
         data-hook="dropdown-layout-wrapper"
       >
@@ -215,7 +261,6 @@ class InputWithOptions extends React.Component {
           {...dropdownProps}
           dataHook="inputwithoptions-dropdownlayout"
           options={this._processOptions(dropdownProps.options)}
-          theme={this.props.theme}
           visible
           onClose={this.hideOptions}
           onSelect={this._onSelect}
@@ -231,7 +276,7 @@ class InputWithOptions extends React.Component {
     const { options, onSelect } = this.props;
     return (
       <div className={nativeStyles.nativeSelectWrapper}>
-        {this.renderInput()}
+        {this._renderInput()}
         <select
           data-hook="native-select"
           className={nativeStyles.nativeSelect}
@@ -258,56 +303,23 @@ class InputWithOptions extends React.Component {
     );
   }
 
-  render() {
-    const {
-      native,
-      dataHook,
-      popoverProps,
-      dropDirectionUp,
-      dropdownWidth,
-      showArrow,
-      className,
-    } = this.props;
-    const placement = dropDirectionUp ? 'top' : popoverProps.placement;
-    const body = popoverProps.appendTo === 'window';
-
-    const classes = classNames(
-      styles.root,
-      {
-        [styles.popoverContent]: showArrow,
-        [styles.withArrow]: showArrow,
-      },
-      className,
-    );
-
-    // {...styles('root', {}, this.props)}
-    return !native ? (
-      <Popover
-        className={classes}
-        {...DEFAULT_POPOVER_PROPS}
-        dynamicWidth={body}
-        {...popoverProps}
-        width={dropdownWidth}
-        placement={placement}
-        dataHook={dataHook}
-        onKeyDown={this._onKeyDown}
-        onClickOutside={this.onClickOutside}
-        shown={this.isDropdownLayoutVisible()}
-      >
-        <Popover.Element>
-          <div data-input-parent className={this.inputClasses()}>
-            {this.renderInput()}
-          </div>
-        </Popover.Element>
-        <Popover.Content>{this._renderDropdownLayout()}</Popover.Content>
-      </Popover>
-    ) : (
-      this._renderNativeSelect()
-    );
-  }
+  isDropdownLayoutVisible = () =>
+    this.state.showOptions &&
+    (this.props.showOptionsIfEmptyInput || this.state.inputValue.length > 0);
 
   showOptions() {
-    this.setState({ showOptions: true, lastOptionsShow: Date.now() });
+    if (!this.state.showOptions) {
+      this.setState({ showOptions: true, lastOptionsShow: Date.now() });
+      this.props.onOptionsShow && this.props.onOptionsShow();
+    }
+  }
+
+  hideOptions() {
+    if (this.state.showOptions) {
+      this.setState({ showOptions: false });
+      this.props.onOptionsHide && this.props.onOptionsHide();
+      this.props.onClose && this.props.onClose();
+    }
   }
 
   closeOnSelect() {
@@ -371,15 +383,10 @@ class InputWithOptions extends React.Component {
   }
 
   _onSelect(option, isSelectedOption) {
-    this.showOptions();
     const { onSelect } = this.props;
 
-    if (this.closeOnSelect()) {
-      this.setState({ showOptions: false });
-    }
-
-    if (isSelectedOption) {
-      this.setState({ showOptions: false });
+    if (this.closeOnSelect() || isSelectedOption) {
+      this.hideOptions();
     }
 
     if (onSelect) {
@@ -388,12 +395,6 @@ class InputWithOptions extends React.Component {
           ? this.props.options.find(opt => opt.id === option.id)
           : option,
       );
-    }
-  }
-
-  hideOptions() {
-    if (this.state.showOptions) {
-      this.setState({ showOptions: false });
     }
   }
 

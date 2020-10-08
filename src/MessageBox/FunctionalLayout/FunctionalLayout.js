@@ -125,9 +125,11 @@ class MessageBoxFunctionalLayout extends React.PureComponent {
       confirmText,
       confirmPrefixIcon,
       confirmSuffixIcon,
+      confirmProps,
       cancelText,
       cancelPrefixIcon,
       cancelSuffixIcon,
+      cancelProps,
       children,
       buttonsHeight,
       hideFooter,
@@ -208,9 +210,11 @@ class MessageBoxFunctionalLayout extends React.PureComponent {
             confirmText={confirmText}
             confirmPrefixIcon={confirmPrefixIcon}
             confirmSuffixIcon={confirmSuffixIcon}
+            confirmProps={confirmProps}
             cancelText={cancelText}
             cancelPrefixIcon={cancelPrefixIcon}
             cancelSuffixIcon={cancelSuffixIcon}
+            cancelProps={cancelProps}
             onCancel={onCancel}
             onConfirm={onConfirm}
             theme={theme}

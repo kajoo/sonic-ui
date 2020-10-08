@@ -1,5 +1,6 @@
 import React from 'react';
-import PropTypes, { oneOfType, func, object, string } from 'prop-types';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import Text from '../Text';
 import styles from './ListItemAction.module.scss';
@@ -69,9 +70,9 @@ class ListItemActionComponent extends React.PureComponent {
       highlighted,
     } = this.props;
 
+    // {...styles('root', { skin, disabled, highlighted }, this.props)}
     return (
       <Component
-        {...styles('root', { skin, disabled, highlighted }, this.props)}
         data-skin={skin}
         data-disabled={disabled}
         tabIndex={tabIndex}
@@ -83,6 +84,11 @@ class ListItemActionComponent extends React.PureComponent {
         data-hook={dataHook}
         onKeyDown={!disabled ? onKeyDown : undefined}
         onClick={!disabled ? onClick : undefined}
+        className={classNames(styles.root, {
+          [styles[`skin-${skin}`]]: true,
+          [styles.disabled]: disabled,
+          [styles.highlighted]: highlighted,
+        })}
       >
         {prefixIcon && this._renderPrefix()}
         {this._renderText()}

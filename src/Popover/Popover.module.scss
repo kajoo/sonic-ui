@@ -1,24 +1,49 @@
 @import '../common.scss';
 
+/** Background color of the content */
+$contentBackgroundColor: white;
+/** Border width of the content */
+$contentBorderWidth: 1px;
+/** Border style of the content */
+$contentBorderStyle: solid;
+/** Border color of the content */
+$contentBorderColor: white;
+/** Border radius of the content */
+$contentBorderRadius: initial;
+/** Content padding for the content */
+$contentPadding: initial;
+/** Size of the arrow of the content */
 $contentArrowSize: 8px;
 
 .root {
-  // -st-states: theme(string);
-  // -st-extends: Popover;
+  position: relative;
+  display: inline-block;
+
+  &.fluid {
+    display: block;
+  }
+
+  &[data-hook*="popover-portal"] {
+    /* This will cause the container's height to stay the same */
+    display: block;
+  }
 }
 
-.root[data-hook*="popover-portal"] {
-  /* This will cause the container's height to stay the same */
-  display: block;
-}
+.popoverElement {}
 
-/* Default styles with light theme */
-.root::popoverContent {
+.popoverContent {
+  background-color: $contentBackgroundColor;
+  border-width: $contentBorderWidth;
+  border-style: $contentBorderStyle;
+  border-color: $contentBorderColor;
+  border-radius: $contentBorderRadius;
+  padding: $contentPadding;
+
   border: none;
 
   border-radius: 8px;
   box-sizing: border-box;
-  // box-shadow: $shadow30;
+  box-shadow: $Shadow30;
   -webkit-font-smoothing: antialiased;
 
   font-size: 14px;
@@ -29,108 +54,61 @@ $contentArrowSize: 8px;
   background: white;
 }
 
-/* Overriding arrow definitions */
-.root::popover::arrow {
-  width: $contentArrowSize;
-  height: $contentArrowSize;
+.popover {}
+.withArrow {}
 
-  background: transparent;
-  box-sizing: border-box;
-
-  /* Defaults for the top arrow */
-  transform: rotateZ(45deg);
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, .1);
+.arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  margin: $contentArrowSize;
 }
 
-.root::popover[data-placement]::arrow {
-  border-width: calc(#{$contentArrowSize} / 2);
-  border-color: transparent white white transparent;
-  margin: 0;
+.popover[data-placement*="right"].withArrow {
+  padding-left: $contentArrowSize;
 }
 
-/*
- * Right arrow
- */
-.root::popover[data-placement*="right"].withArrow {
-  padding-left: calc(#{$contentArrowSize} - 2px);
-}
-
-.root::popover[data-placement*="right"]::arrow {
-  transform: rotateZ(135deg);
-  left: calc(#{$contentArrowSize} / 2 - 2px);
-
-  margin-top: $contentArrowSize;
-  margin-bottom: $contentArrowSize;
-}
-
-/*
- * Left arrow
- */
-.root::popover[data-placement*="left"].withArrow {
-  padding-right: calc(#{$contentArrowSize} - 2px);
-}
-
-.root::popover[data-placement*="left"]::arrow {
-  transform: rotateZ(-45deg);
-  right: calc(#{$contentArrowSize} / 2 - 2px);
-
-  margin-top: $contentArrowSize;
-  margin-bottom: $contentArrowSize;
-}
-
-/*
- * Top arrow
- */
-.root::popover[data-placement*="top"].withArrow {
-  padding-bottom: calc(#{$contentArrowSize} - 2px);
-}
-
-.root::popover[data-placement*="top"]::arrow {
-  transform: rotateZ(45deg);
-  bottom: calc(#{$contentArrowSize} / 2 - 2px);
-
+.popover[data-placement*="right"].withArrow .arrow {
+  border-width: $contentArrowSize $contentArrowSize $contentArrowSize 0;
+  left: calc(-1 * #{$contentArrowSize});
   margin-left: $contentArrowSize;
+  margin-right: 0;
+  border-color: transparent $contentBorderColor transparent transparent;
+}
+
+.popover[data-placement*="left"].withArrow {
+  padding-right: $contentArrowSize;
+}
+
+.popover[data-placement*="left"].withArrow .arrow {
+  border-width: $contentArrowSize 0 $contentArrowSize $contentArrowSize;
+  right: calc(-1 * #{$contentArrowSize});
+  margin-left: 0;
   margin-right: $contentArrowSize;
+  border-color: transparent transparent transparent $contentBorderColor;
 }
 
-/*
- * Bottom arrow
- */
-.root::popover[data-placement*="bottom"].withArrow {
-  padding-top: calc(#{$contentArrowSize} - 2px);
+.popover[data-placement*="bottom"].withArrow {
+  padding-top: $contentArrowSize;
 }
 
-.root::popover[data-placement*="bottom"]::arrow {
-  transform: rotateZ(-135deg);
-  top: calc(#{$contentArrowSize} / 2 - 2px);
-
-  margin-left: $contentArrowSize;
-  margin-right: $contentArrowSize;
+.popover[data-placement*="bottom"].withArrow .arrow {
+  border-width: 0 $contentArrowSize $contentArrowSize $contentArrowSize;
+  top: calc(-1 * #{$contentArrowSize});
+  margin-top: $contentArrowSize;
+  margin-bottom: 0;
+  border-color: transparent transparent $contentBorderColor transparent;
 }
 
-/* Dark theme */
-.root:theme(dark)::popoverContent {
-  color: white;
-  background: $D10;
+.popover[data-placement*="top"].withArrow {
+  padding-bottom: $contentArrowSize;
 }
 
-.root:theme(dark)::popover::arrow {
-  border-color: transparent $D10 $D10 transparent;
-}
-
-/*
- * Entrance and exit animation
- */
-
-.root::popoverAnimation-enter {
-  opacity: 0.85;
-  transform: scale(0.9);
-}
-
-.root::popoverAnimation-enter-active {
-  opacity: 1;
-  transform: scale(1);
-
-  transition: opacity 300ms cubic-bezier(0.23, 1, 0.32, 1),
-    transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
+.popover[data-placement*="top"].withArrow .arrow {
+  border-width: $contentArrowSize $contentArrowSize 0 $contentArrowSize;
+  bottom: calc(-1 * #{$contentArrowSize});
+  margin-top: 0;
+  margin-bottom: $contentArrowSize;
+  border-color: $contentBorderColor transparent transparent transparent;
 }

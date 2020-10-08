@@ -6,6 +6,8 @@ import DATA_ATTR from './DataAttr';
 import styles from './Input.module.scss';
 
 class ThemedInput extends Input {
+  static displayName = 'ThemedInput';
+
   static propTypes = {
     ...Input.propTypes,
   };

@@ -10,131 +10,42 @@ class DropdownBase extends React.PureComponent {
   static displayName = 'DropdownBase';
 
   static propTypes = {
+
     dataHook: PropTypes.string,
-
-    /** A controlled prop to control whether the Popover should be opened*/
-    open: PropTypes.bool,
-    /** The Popover's placement */
-    placement: PropTypes.oneOf(placements),
-    /** The Popover's appendTo */
-    appendTo: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    /** Whether to show the Popover's arrow */
-    showArrow: PropTypes.bool,
-    /** Callback function to be called on outside click */
-    onClickOutside: PropTypes.func,
-    /** Callback function to be called on mouseEnter on the entire component */
-    onMouseEnter: PropTypes.func,
-    /** Callback function to be called on mouseEnter onMouseLeave the entire component */
-    onMouseLeave: PropTypes.func,
-    /** Callback function to be called when selecting an option. It's signature is `onSelect(selectedOption)` */
-    onSelect: PropTypes.func,
-    /**
-     * popovers content is set to minnimum width of trigger element,
-     * but it can expand up to the value of maxWidth.
-     */
-    dynamicWidth: PropTypes.bool,
-    /** The minimum width applied to the list */
-    minWidth: PropTypes.number,
-    /** The maximum width applied to the list */
-    maxWidth: PropTypes.number,
-    /** maximum height of dropdown box */
-    maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    /**
-     * The target component to be rendered. If a regular node is passed, it'll be rendered as-is.
-     * If a function is passed, it's expected to return a React element. The function accepts an
-     * object containing the following properties:
-     *
-     *  * `open` - will open the Popover
-     *  * `close` - will close the Popover
-     *  * `toggle` - will toggle the Popover
-     *  * `delegateKeyDown` - the underlying DropdownLayout's keydown handler. It can be called
-     *                        inside another keyDown event in order to delegate it.
-     *  * `selectedOption` - the currently selected option
-     *
-     * Refer to the component documentation for more information.
-     */
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-
-    /**
-     * Array of objects. Objects must have an `id` and can can include value and node. If value is
-     * '-', a divider will be rendered instead (dividers do not require and id).
-     */
-    options: PropTypes.arrayOf(
-      PropTypes.oneOfType([
-        PropTypes.shape({
-          id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-            .isRequired,
-          value: PropTypes.oneOfType([
-            PropTypes.node,
-            PropTypes.string,
-            PropTypes.func,
-          ]).isRequired,
-          disabled: PropTypes.bool,
-          overrideStyle: PropTypes.bool,
-        }),
-
-        // A divider option without an id
-        PropTypes.shape({
-          value: PropTypes.oneOf(['-']),
-        }),
-      ]),
-    ),
-
-    /** The `id` of the selected option in the list */
-    selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-    /** Dropdown container overflow value */
-    overflow: PropTypes.string,
-
-    /** Dropdown container tabindex value */
-    tabIndex: PropTypes.number,
-
-    /**
-     * The `id` of the **initial** selected option in the list, will be used when the selection
-     * behaviour is being controlled
-     */
-    initialSelectedId: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-
-    /** Dropdown content z-index */
-    zIndex: PropTypes.number,
-
-    /** moves dropdown content relative to the parent by x or y */
-    moveBy: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
-
-    /**
-     * Whether to enable the flip behaviour. This behaviour is used to flip the `<Popover/>`'s placement
-     * when it starts to overlap the target element (`<Popover.Element/>`).
-     */
-    flip: PropTypes.bool,
-
-    /**
-     * Whether to enable the fixed behaviour. This behaviour is used to keep the `<Popover/>` at it's
-     * original placement even when it's being positioned outside the boundary.
-     */
-    fixed: PropTypes.bool,
   };
 
   static defaultProps = {
-    placement: 'bottom',
     appendTo: 'parent',
+    placement: 'bottom',
     showArrow: false,
     maxHeight: '260px',
+    fluid: false,
+    animate: false,
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      open: this.props.open,
-      selectedId: this.props.selectedId || this.props.initialSelectedId || -1,
+      open: props.open,
+      selectedId: props.selectedId || props.initialSelectedId || -1,
     };
 
-    this._dropdownLayoutRef = null;
-    this._shouldCloseOnMouseLeave = false;
+    this._renderChildren = this._renderChildren.bind(this);
+    this._isControllingOpen = this._isControllingOpen.bind(this);
+    this._isControllingSelection = this._isControllingSelection.bind(this);
+    this._open = this._open.bind(this);
+    this._close = this._close.bind(this);
+    this._toggle = this._toggle.bind(this);
+    this._handleClickOutside = this._handleClickOutside.bind(this);
+    this._handlePopoverMouseEnter = this._handlePopoverMouseEnter.bind(this);
+    this._handlePopoverMouseLeave = this._handlePopoverMouseLeave.bind(this);
+    this._handleSelect = this._handleSelect.bind(this);
+    this._handleClose = this._handleClose.bind(this);
+    this._getSelectedOption = this._getSelectedOption.bind(this);
+    this._isOpenKey = this._isOpenKey.bind(this);
+    this._handleKeyDown = this._handleKeyDown.bind(this);
+    this._delegateKeyDown = this._delegateKeyDown.bind(this);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -156,47 +67,29 @@ class DropdownBase extends React.PureComponent {
 
   render() {
     const {
-      dataHook,
-      placement,
-      appendTo,
-      showArrow,
-      zIndex,
-      moveBy,
       options,
       minWidth,
       maxWidth,
-      fixed,
-      flip,
+      maxHeight,
+      showArrow,
       tabIndex,
       overflow,
-      dynamicWidth,
-      maxHeight,
+      className,
     } = this.props;
-
     const { open, selectedId } = this.state;
-
-    const classes = classNames(styles.root, {
-      [styles.withWidth]: Boolean(minWidth || maxWidth),
-      [styles.withArrow]: showArrow,
-    });
 
     return (
       <Popover
-        dataHook={dataHook}
+        {...this.props}
         shown={open}
-        placement={placement}
-        dynamicWidth={dynamicWidth}
-        appendTo={appendTo}
-        showArrow={showArrow}
-        zIndex={zIndex}
-        moveBy={moveBy}
         onKeyDown={this._handleKeyDown}
         onMouseEnter={this._handlePopoverMouseEnter}
         onMouseLeave={this._handlePopoverMouseLeave}
         onClickOutside={this._handleClickOutside}
-        fixed={fixed}
-        flip={flip}
-        className={classes}
+        className={classNames(styles.root, {
+          [styles.withWidth]: Boolean(minWidth || maxWidth),
+          [styles.withArrow]: showArrow,
+        }, className)}
       >
         <Popover.Element>{this._renderChildren()}</Popover.Element>
 
@@ -208,17 +101,15 @@ class DropdownBase extends React.PureComponent {
             }}
           >
             <DropdownLayout
-              dataHook="dropdown-base-dropdownlayout"
-              ref={r => (this._dropdownLayoutRef = r)}
-              selectedId={selectedId}
-              options={options}
-              maxHeightPixels={maxHeight}
-              onSelect={this._handleSelect}
-              onClose={this._handleClose}
-              tabIndex={tabIndex}
-              inContainer
+              ref={ref => this.dropdownLayout = ref}
               visible
+              options={options}
+              selectedId={selectedId}
+              onSelect={this._handleSelect}
+              maxHeightPixels={maxHeight}
+              tabIndex={tabIndex}
               overflow={overflow}
+              onClose={this._handleClose}
             />
           </div>
         </Popover.Content>
@@ -228,47 +119,41 @@ class DropdownBase extends React.PureComponent {
 
   _renderChildren() {
     const { children } = this.props;
-    const { selectedId } = this.state;
+    const { selectedId, open } = this.state;
 
     if (!children) {
       return null;
     }
 
     return React.isValidElement(children)
-      ? children // Returning the children as is when using in controlled mode
+      ? children
       : children({
-          open: this._open,
-          close: this._close,
-          toggle: this._toggle,
+        open: this._open,
+        close: this._close,
+        toggle: this._toggle,
+        isOpen: Boolean(open),
 
-          delegateKeyDown: this._delegateKeyDown,
-
-          selectedOption: this._getSelectedOption(selectedId),
-        });
+        delegateKeyDown: this._delegateKeyDown,
+        selectedOption: this._getSelectedOption(selectedId),
+      });
   }
 
-  /**
-   * Return `true` if the `open` prop is being controlled
-   */
-  _isControllingOpen = (props = this.props) => {
-    return typeof props.open !== 'undefined';
-  };
+  _isControllingOpen() {
+    return typeof this.props.open !== 'undefined';
+  }
 
-  /**
-   * Return `true` if the selection behaviour is being controlled
-   */
-  _isControllingSelection = (props = this.props) => {
+  _isControllingSelection() {
     return (
-      typeof props.selectedId !== 'undefined' &&
-      typeof props.onSelect !== 'undefined'
+      typeof this.props.selectedId !== 'undefined' &&
+      typeof this.props.onSelect !== 'undefined'
     );
-  };
+  }
 
-  _open = () => {
+  _open() {
     !this._isControllingOpen() && this.setState({ open: true });
-  };
+  }
 
-  _close = e => {
+  _close(e) {
     if (this._isControllingOpen()) {
       return;
     }
@@ -281,29 +166,29 @@ class DropdownBase extends React.PureComponent {
     } else {
       this.setState({ open: false });
     }
-  };
+  }
 
-  _toggle = () => {
+  _toggle() {
     !this._isControllingOpen() &&
       this.setState(({ open }) => ({
         open: !open,
       }));
-  };
+  }
 
-  _handleClickOutside = () => {
+  _handleClickOutside() {
     const { onClickOutside } = this.props;
 
     this._close();
     onClickOutside && onClickOutside();
-  };
+  }
 
-  _handlePopoverMouseEnter = () => {
+  _handlePopoverMouseEnter() {
     const { onMouseEnter } = this.props;
 
     onMouseEnter && onMouseEnter();
-  };
+  }
 
-  _handlePopoverMouseLeave = () => {
+  _handlePopoverMouseLeave() {
     const { onMouseLeave } = this.props;
 
     if (this._shouldCloseOnMouseLeave) {
@@ -315,9 +200,9 @@ class DropdownBase extends React.PureComponent {
     }
 
     onMouseLeave && onMouseLeave();
-  };
+  }
 
-  _handleSelect = selectedOption => {
+  _handleSelect(selectedOption) {
     const newState = {};
 
     if (!this._isControllingOpen()) {
@@ -332,31 +217,31 @@ class DropdownBase extends React.PureComponent {
       const { onSelect } = this.props;
       onSelect && onSelect(selectedOption);
     });
-  };
+  }
 
-  _handleClose = () => {
+  _handleClose() {
     if (this.state.open) {
       this._close();
     }
-  };
+  }
 
-  _getSelectedOption = selectedId => {
+  _getSelectedOption(selectedId) {
     return this.props.options.find(({ id }) => id === selectedId);
-  };
+  }
 
   /**
    * Determine if a certain key should open the DropdownLayout
    */
-  _isOpenKey = key => {
+  _isOpenKey(key) {
     return ['Enter', 'Spacebar', ' ', 'ArrowDown'].includes(key);
-  };
+  }
 
   /**
    * A common `keydown` event that can be used for the target elements. It will automatically
    * delegate the event to the underlying <DropdownLayout/>, and will determine when to open the
    * dropdown depending on the pressed key.
    */
-  _handleKeyDown = e => {
+  _handleKeyDown(e) {
     if (this._isControllingOpen()) {
       return;
     }
@@ -369,19 +254,19 @@ class DropdownBase extends React.PureComponent {
         e.preventDefault();
       }
     }
-  };
+  }
 
   /*
    * Delegate the event to the DropdownLayout. It'll handle the navigation, option selection and
    * closing of the dropdown.
    */
-  _delegateKeyDown = e => {
-    if (!this._dropdownLayoutRef) {
+  _delegateKeyDown(e) {
+    if (!this.dropdownLayout) {
       return false;
     }
 
-    return this._dropdownLayoutRef._onKeyDown(e);
-  };
+    return this.dropdownLayout._onKeyDown(e);
+  }
 }
 
 export default DropdownBase;

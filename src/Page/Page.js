@@ -33,16 +33,35 @@ class Page extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.hasHeader = this.hasHeader.bind(this);
   }
 
   render() {
     const { className } = this.props;
 
+    const classes = classNames(styles.page, {
+      [styles.hasHeader]: this.hasHeader(),
+    }, className);
+
     return (
-      <div className={classNames(styles.page, className)}>
+      <div className={classes}>
         {this.props.children}
       </div>
     );
+  }
+
+  hasHeader() {
+    let flag = false;
+
+    React.Children.forEach(this.props.children, (child) => {
+      if (child.type.displayName === PageHeader.displayName) {
+        flag = true;
+        return true;
+      }
+    });
+
+    return flag;
   }
 }
 

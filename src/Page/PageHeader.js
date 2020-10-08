@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import Heading from '../Heading';
 import Text from '../Text';
-import styles from './PageHeader.module.scss';
+import styles from './Page.module.scss';
 
 class PageHeader extends React.Component {
   static displayName = 'Page.Header';
@@ -30,11 +30,13 @@ class PageHeader extends React.Component {
     const { actions, className, dataHook } = this.props;
 
     return (
-      <div className={classNames(styles.pageHeader, className)}>
-        {this.renderHeading()}
+      <div className={styles.headerContainer}>
+        <div className={classNames(styles.pageHeader, className)}>
+          {this.renderHeading()}
 
-        <div className={styles.actions}>
-          {typeof actions === 'function' ? actions() : actions}
+          <div className={styles.actions}>
+            {typeof actions === 'function' ? actions() : actions}
+          </div>
         </div>
       </div>
     );

@@ -1,20 +1,67 @@
 @import '../common.scss';
 
+$header-height: 75px;
+$padding: 38px;
+
 .page {
-  position: relative;
+  box-sizing: border-box;
   width: 100%;
+  height: 100%;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  // display: block;
   // display: flex;
   // flex-direction: column;
   // flex-grow: 1;
-  padding: 10px 20px;
-  height: 100%;
+  // padding: 10px 20px;
+  overflow-y: scroll;
 
-  .pageContent {
-    // display: flex;
-    // flex-direction: column;
-    position: relative;
-    width: 100%;
-    height: calc(100% - 100px);
-    overflow-y: scroll;
+  &.hasHeader {
+    padding-top: $header-height;
   }
+}
+
+.headerContainer {
+  box-sizing: border-box;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  padding: 0 $padding;
+}
+
+.pageHeader {
+  box-sizing: border-box;
+  // width: 100%;
+  height: $header-height;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px;
+  border-bottom: 1px solid #c2dbf5;
+
+  .heading {
+    // display: flex;
+    flex-grow: 1;
+
+    .titleColumn {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.pageContent {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  // height: 100%;
+  // height: calc(100% - #{$header-height});
+  // padding: 30px 0 0 0;
+  padding: 20px $padding $padding $padding;
 }

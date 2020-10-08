@@ -3,15 +3,15 @@
 
 $minWidth: 378px;
 $minHeight: 132px;
-// $backgroundColor: $D80;
-// $border: 1px solid $B30;
+$backgroundColor: $D80;
+$border: 1px solid $B30;
 $borderRadius: 6px;
 $padding: 12px;
 
 .root {
   min-height: $minHeight;
   min-width: $minWidth;
-  // background-color: $backgroundColor;
+  background-color: $backgroundColor;
   border-radius: $borderRadius;
 
   :global(.public-DraftEditorPlaceholder-root) {
@@ -26,16 +26,16 @@ $padding: 12px;
 .editorWrapper {
   background-color: $pale-grey;
   border-radius: 10px;
-  box-shadow: $Shadow30;
-  
+  // box-shadow: $Shadow30;
+
   position: relative;
 
   :global(.public-DraftEditor-content) {
-    // background-color: $backgroundColor;
+    background-color: $backgroundColor;
     min-height: $minHeight;
-    // max-height: var(--max-height);
+    max-height: var(--max-height);
     padding: $padding;
-    // border: $border;
+    border: $border;
     border-bottom-left-radius: $borderRadius;
     border-bottom-right-radius: $borderRadius;
     overflow: auto;
@@ -43,61 +43,61 @@ $padding: 12px;
     // @include Text($weight: thin, $size: medium);
 
     &:hover {
-      // background-color: $B50;
+      background-color: $B50;
       cursor: pointer;
     }
 
     &:focus {
-      // background-color: $D80;
+      background-color: $D80;
       cursor: text;
-      // border-color: $B10;
-      // box-shadow: 0 0 0 3px $F00;
+      border-color: $B10;
+      box-shadow: 0 0 0 3px $F00;
     }
   }
 }
 
 .disabled {
-  // $color: $D10-30;
-  // $borderColor: $D10-30;
+  $color: $D10-30;
+  $borderColor: $D10-30;
 
   .toolbar {
-    // border-color: $borderColor;
+    border-color: $borderColor;
   }
 
   :global(.public-DraftEditorPlaceholder-root) {
-    // color: $color;
+    color: $color;
   }
 
   :global(.public-DraftEditor-content) {
-    // color: $color;
-    // border-color: $borderColor;
+    color: $color;
+    border-color: $borderColor;
 
     &:hover {
-      // background-color: $backgroundColor;
+      background-color: $backgroundColor;
       cursor: default;
     }
   }
 
   .link {
-    // color: $color;
+    color: $color;
   }
 }
 
 .error {
-  // $borderColor: $R10;
+  $borderColor: $R10;
 
   .toolbar {
-    // border-color: $borderColor;
+    border-color: $borderColor;
   }
 
   :global(.public-DraftEditor-content) {
-    // border-left-color: $borderColor;
-    // border-bottom-color: $borderColor;
-    // border-right-color: $borderColor;
+    border-left-color: $borderColor;
+    border-bottom-color: $borderColor;
+    border-right-color: $borderColor;
 
     &:focus {
-      // border-color: $borderColor;
-      // box-shadow: 0 0 0 3px $R30;
+      border-color: $borderColor;
+      box-shadow: 0 0 0 3px $R30;
     }
   }
 }
@@ -115,10 +115,11 @@ $padding: 12px;
 }
 
 .toolbar {
-  // border: $border;
+  border: $border;
   border-bottom: 0;
   border-top-left-radius: $borderRadius;
   border-top-right-radius: $borderRadius;
+  background-color: $D70;
 }
 
 .link {

@@ -1,0 +1,144 @@
+@import '../common.scss';
+
+.root {
+  width: 18px;
+  height: 18px;
+  min-width: 0;
+  border-radius: 18px;
+  padding: 0;
+
+  box-sizing: border-box;
+  text-align: center;
+
+  border: none;
+  outline: none;
+
+  transition-duration: 100ms;
+  transition-timing-function: linear;
+  transition-property: background-color, color, border-color;
+
+  border-color: transparent;
+  background-color: transparent;
+
+  // &:focus-visible {
+  //   box-shadow: 0 0 0 3px $F00;
+  // }
+}
+
+.skin {
+  &-standard {
+    color: $B10;
+
+    &:hover{
+      color: $B20;
+    }
+
+    &:active {
+      color: $B10;
+    }
+
+    &:disabled {
+      color: $D10-30;
+    }
+  }
+
+  &-standardFilled {
+    background-color: $B50;
+    color: $B10;
+
+    &:hover {
+      background-color: $B40;
+      color: $B10;
+    }
+
+    &:active {
+      background-color: $B30;
+      color: $B10;
+    }
+
+    &:disabled {
+      color: $D80;
+      background-color: $D10-30;
+    }
+  }
+
+  &-light {
+    color: $D80;
+
+    &:hover {
+      color: $B50;
+    }
+
+    &:active {
+      color: $B40;
+    }
+
+    &:disabled {
+      color: $D80-70;
+    }
+  }
+
+  &-dark {
+    color: $D10;
+
+    &:hover {
+      color: $D20;
+    }
+    &:active {
+      color: $D10;
+    }
+    &:disabled {
+      color: $D10-30;
+    }
+  }
+
+  &-lightFilled {
+    // background-color: $S5;
+    color: $D80;
+
+    &:hover {
+      // background-color: $S6;
+      color: $D80;
+    }
+
+    &:active {
+      // background-color: $S7;
+      color: $D80;
+    }
+
+    &:disabled {
+      color: $D80;
+      background-color: $D10-30;
+    }
+  }
+
+  &-transparent {
+    background-color: $D20-48;
+    color: $D80;
+
+    &:hover {
+      background-color: $D20-54;
+      color: $D80;
+    }
+    &:active {
+      background-color: $D20-60;
+      color: $D80;
+    }
+    &:disabled {
+      background-color: $D10-20;
+      color: $D80-70;
+    }
+  }
+}
+
+.size {
+  &-medium {
+    width: 24px;
+    height: 24px;
+  }
+
+  &-large {
+    width: 30px;
+    height: 30px;
+  }
+}

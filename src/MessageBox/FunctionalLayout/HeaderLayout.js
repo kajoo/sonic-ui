@@ -21,7 +21,7 @@ const HeaderLayout = ({ title, onCancel, theme, closeButton }) => {
         //   skin="lightFilled"
         //   onClick={onCancel}
         // />
-        <i className="ion ion-md-close" onClick={onCancel} />
+        <i className={classNames('ion ion-md-close', styles.close)} onClick={onCancel} />
       ) : null}
     </div>
   );

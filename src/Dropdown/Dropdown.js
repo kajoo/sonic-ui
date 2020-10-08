@@ -1,22 +1,11 @@
-/**
- * Copyright (c) Kajoo, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * @flow
- */
-
-'use strict';
-
 import classNames from 'classnames';
 import defaultTo from 'lodash/defaultTo';
 import isEqual from 'lodash/isEqual';
 import sortBy from 'lodash/sortBy';
 import { allValidators, extendPropTypes } from '../utils/propTypes';
 
-import InputWithOptions from '../InputWithOptions/InputWithOptions';
-import DropdownLayout from '../DropdownLayout';
+import InputWithOptions from '../InputWithOptions';
+import DropdownLayout, { propTypes as DropdownLayoutPropTypes } from '../DropdownLayout/DropdownLayout';
 import styles from './Dropdown.module.scss';
 
 const NO_SELECTED_ID = null;
@@ -26,10 +15,12 @@ class Dropdown extends InputWithOptions {
 
   static propTypes = {
     ...InputWithOptions.propTypes,
+    /** THIS PROP WAS REMOVED */
+    withArrow: DropdownLayoutPropTypes.withArrow,
     /** Sets the selected option id. (Implies Controlled mode) */
-    // selectedId: DropdownLayout.propTypes.selectedId,
+    selectedId: DropdownLayoutPropTypes.selectedId,
     /** An initial selected option id. (Implies Uncontrolled mode) */
-    // initialSelectedId: DropdownLayout.propTypes.selectedId,
+    initialSelectedId: DropdownLayoutPropTypes.selectedId,
   };
 
   static defaultProps = InputWithOptions.defaultProps;
@@ -122,6 +113,7 @@ class Dropdown extends InputWithOptions {
       selectedId: this.getSelectedId(),
       value: this.state.value,
       tabIndex: -1,
+      withArrow: false,
     };
   }
 
@@ -149,20 +141,20 @@ class Dropdown extends InputWithOptions {
   }
 }
 
-// extendPropTypes(Dropdown, {
-//   selectedId: allValidators(
-//     DropdownLayout.propTypes.selectedId,
-//     (props, propName) => {
-//       if (
-//         props[propName] !== undefined &&
-//         props['initialSelectedId'] !== undefined
-//       ) {
-//         return new Error(
-//           `'selectedId' and 'initialSelectedId' cannot both be used at the same time.`,
-//         );
-//       }
-//     },
-//   ),
-// });
+extendPropTypes(Dropdown, {
+  selectedId: allValidators(
+    DropdownLayoutPropTypes.selectedId,
+    (props, propName) => {
+      if (
+        props[propName] !== undefined &&
+        props['initialSelectedId'] !== undefined
+      ) {
+        return new Error(
+          `'selectedId' and 'initialSelectedId' cannot both be used at the same time.`,
+        );
+      }
+    },
+  ),
+});
 
 export default Dropdown;

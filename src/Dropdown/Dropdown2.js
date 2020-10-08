@@ -20,8 +20,10 @@ import onClickOutside, {
   InjectedOnClickOutProps,
 } from 'react-onclickoutside';
 
-import Input from '../../Input';
-import Text from '../../Text';
+import Input from '../Input';
+import Text from '../Text';
+import DropdownLayout from '../DropdownLayout/DropdownLayout';
+import Popover from '../Popover';
 import styles from './Dropdown.module.scss';
 
 const NO_SELECTED_ID = null;
@@ -104,35 +106,26 @@ class Dropdown extends React.PureComponent {
     };
 
     this._renderInput = this._renderInput.bind(this);
-    this._renderNode = this._renderNode.bind(this);
-    this._renderDivider = this._renderDivider.bind(this);
-    this._renderItem = this._renderItem.bind(this);
-    this.getId = this.getId.bind(this);
-    this.getValue = this.getValue.bind(this);
     this.showOptions = this.showOptions.bind(this);
     this.hideOptions = this.hideOptions.bind(this);
     this._onClickOutside = this._onClickOutside.bind(this);
-    this._onKeyDown = this._onKeyDown.bind(this);
     this._onMouseEnter = this._onMouseEnter.bind(this);
     this._onMouseLeave = this._onMouseLeave.bind(this);
-    this._onInputClick = this._onInputClick.bind(this);
+    this._onInputClicked = this._onInputClicked.bind(this);
     this._onClick = this._onClick.bind(this);
     this._onChange = this._onChange.bind(this);
     this._onSelect = this._onSelect.bind(this);
-    this._isSelectableOption = this._isSelectableOption.bind(this);
-    this._isControlled = this._isControlled.bind(this);
-    this._onMouseEnterOption = this._onMouseEnterOption.bind(this);
-    this._onMouseLeaveOption = this._onMouseLeaveOption.bind(this);
-    this._markOption = this._markOption.bind(this);
-    this._getMarkedIndex = this._getMarkedIndex.bind(this);
-    this._markNextStep = this._markNextStep.bind(this);
   }
+
+  // Abstraction
+  inputAdditionalProps() {}
+  dropdownAdditionalProps() {}
 
   componentDidMount() {
     if (this.props.selectedId) {
-      const selectedOption = this.props.options.filter(option => this.getId(option) === this.props.selectedId);
+      const selectedOption = this.props.options.filter(option => option.id === this.props.selectedId);
       if (selectedOption.length === 1) {
-        this.setState({ value: this.getValue(selectedOption[0]) });
+        this.setState({ value: selectedOption[0].value });
       }
     }
   }
@@ -142,9 +135,9 @@ class Dropdown extends React.PureComponent {
       this.props.selectedId !== prevProps.selectedId ||
       !Dropdown.isOptionsEqual(this.props.options, prevProps.options)
     ) {
-      const selectedOption = this.props.options.filter(option => this.getId(option) === this.props.selectedId);
+      const selectedOption = this.props.options.filter(option => option.id === this.props.selectedId);
       if (selectedOption.length === 1) {
-        this.setState({ value: this.getValue(selectedOption[0]) });
+        this.setState({ value: selectedOption[0].value });
       }
     }
   }
@@ -163,13 +156,31 @@ class Dropdown extends React.PureComponent {
     });
 
     return (
+      <Popover
+        shown={this.state.showOptions}
+      >
+        <Popover.Element>
+          {this._renderInput()}
+        </Popover.Element>
+        <Popover.Content>
+          <DropdownLayout
+            {...this.props}
+            visible={this.state.showOptions}
+            onSelect={this._onSelect}
+            tabIndex={-1}
+          />
+        </Popover.Content>
+      </Popover>
+    );
+
+    // onKeyDown={this._onKeyDown}
+    return (
       <ClickOutsideWrapper
         handleClickOutside={this._onClickOutside}
       >
         <div
           onMouseEnter={this._onMouseEnter}
           onMouseLeave={this._onMouseLeave}
-          onKeyDown={this._onKeyDown}
           className={styles.root}
         >
           {this._renderInput()}
@@ -181,22 +192,23 @@ class Dropdown extends React.PureComponent {
             >
               {options.map((option, index) => (
                 <option
-                  key={this.getId(option)}
-                  value={this.getValue(option)}
+                  key={option.id}
+                  value={option.value}
                   className={styles.nativeOption}
                   data-index={index}
-                  data-hook={`native-option-${this.getId(option)}`}
+                  data-hook={`native-option-${option.id}`}
                 >
-                  {this.getValue(option)}
+                  {option.value}
                 </option>
               ))}
             </select>
           ) : (
-            <div className={contentClasses}>
-              {this._renderNode(fixedHeader)}
-              {options.map((option, index) => this._renderItem(option, index))}
-              {this._renderNode(fixedFooter)}
-            </div>
+            <DropdownLayout
+              {...this.props}
+              visible={this.state.showOptions}
+              onSelect={this._onSelect}
+              tabIndex={-1}
+            />
           )}
         </div>
       </ClickOutsideWrapper>
@@ -204,10 +216,7 @@ class Dropdown extends React.PureComponent {
   }
 
   _renderInput() {
-    const {
-      inputElement,
-      ...props
-    } = this.props;
+    const inputAdditionalProps = this.inputAdditionalProps() || {};
     const inputProps = {
       ...omit(
         [
@@ -218,74 +227,25 @@ class Dropdown extends React.PureComponent {
           'menuArrow',
           'markedOption',
         ],
-        props,
+        this.props,
       ),
+      ...inputAdditionalProps,
     };
 
+    const { inputElement } = inputProps;
     return React.cloneElement(inputElement, {
       ref: input => (this.input = input),
-      ...inputProps,
       menuArrow: true,
-      value: this.state.value,
-      onInputClicked: inputElement.type.name === 'ThemedInput' ? this._onInputClick : undefined,
+      ...inputProps,
+      onKeyDown: inputAdditionalProps.onKeyDown,
+      // value: this.state.value,
+      // onInputClicked: inputElement.type.displayName === 'ThemedInput' ? this._onInputClicked : undefined,
+      onInputClicked: this._onInputClicked,
       onClick: this._onClick,
+      onChange: this._onChange,
+      textOverflow: this.props.textOverflow || inputElement.props.textOverflow,
+      tabIndex: this.props.native ? -1 : 0,
     });
-  }
-
-  _renderNode(node) {
-    return node ? <div className={styles.node}>{node}</div> : null;
-  }
-
-  _renderDivider(idx, dataHook) {
-    return <div key={idx} className={styles.divider} data-hook={dataHook} />;
-  }
-
-  _renderItem(option, index) {
-    const {
-      optionClassName,
-    } = this.props;
-
-    if (this.getValue(option) === DIVIDER_OPTION_VALUE) {
-      return this._renderDivider(index, `dropdown-divider-${this.getId(option) || index}`);
-    }
-
-    const classes = classNames(styles.option, {
-      [styles.hovered]: index === this.state.hoveredIndex,
-    }, optionClassName);
-
-    return (
-      <div
-        key={this.getId(option)}
-        onMouseEnter={() => this._onMouseEnterOption(index)}
-        onMouseLeave={this._onMouseLeaveOption}
-        onClick={!option.disabled ? event => this._onSelect(index, event) : null}
-        className={classes}
-      >
-        <Text
-          weight="normal"
-          size="medium"
-          ellipsis={false}
-        >
-          {typeof this.getValue(option) === 'function' ? this.getValue(option)({}) : this.getValue(option)}
-        </Text>
-      </div>
-    );
-  }
-
-  getId(option) {
-    if (this.props.idParser) {
-      return this.props.idParser(option);
-    } else {
-      return option.id;
-    }
-  }
-
-  getValue(option) {
-    if (this.props.valueParser) {
-      return this.props.valueParser(option);
-    } else {
-      return option.value;
-    }
   }
 
   showOptions() {
@@ -314,55 +274,6 @@ class Dropdown extends React.PureComponent {
     this.props.onClickOutside && this.props.onClickOutside();
   }
 
-  _onKeyDown(event) {
-    switch (event.key) {
-      case 'ArrowDown': {
-        this._markNextStep(1);
-        break;
-      }
-
-      case 'ArrowUp': {
-        this._markNextStep(-1);
-        break;
-      }
-
-      case ' ':
-      case 'Spacebar':
-      case 'Enter': {
-        if (!this._onSelect(this.state.hoveredIndex, event)) {
-          return false;
-        }
-        break;
-      }
-
-      case 'Tab': {
-        if (this.props.closeOnSelect) {
-          return this._onSelect(this.state.hoveredIndex, event);
-        } else {
-          if (this._onSelect(this.state.hoveredIndex, event)) {
-            event.preventDefault();
-            return true;
-          } else {
-            return false;
-          }
-        }
-        break;
-      }
-
-      case 'Escape': {
-        this._markOption(NOT_HOVERED_INDEX);
-        this.props.onClose && this.props.onClose();
-        break;
-      }
-
-      default: {
-        return false;
-      }
-    }
-    event.stopPropagation();
-    return true;
-  }
-
   _onMouseEnter() {
     this.props.openOnHover && this.setState({ showOptions: true });
     this.props.onMouseEnter && this.props.onMouseEnter();
@@ -373,7 +284,7 @@ class Dropdown extends React.PureComponent {
     this.props.onMouseLeave && this.props.onMouseLeave();
   }
 
-  _onInputClick() {
+  _onInputClicked() {
     if (this.state.showOptions) {
       this.input.blur();
     }
@@ -391,88 +302,14 @@ class Dropdown extends React.PureComponent {
     this.props.onSelect && this.props.onSelect(this.props.options[event.target.selectedIndex]);
   }
 
-  _onSelect(index, event) {
-    const { options, onSelect } = this.props;
-    const chosenOption = options[index];
+  _onSelect(option, sameOptionWasPicked) {
+    const { onSelect } = this.props;
 
     if (this.props.closeOnSelect) {
       this.hideOptions();
     }
 
-    this.setState({ value: this.getValue(chosenOption) });
-
-    if (chosenOption) {
-      const sameOptionWasPicked = chosenOption.id === this.state.selectedId;
-      if (onSelect) {
-        event.stopPropagation();
-        onSelect(chosenOption, sameOptionWasPicked);
-      }
-    }
-    this._markOption(NOT_HOVERED_INDEX);
-    return !!onSelect && chosenOption;
-  }
-
-  _isSelectableOption(option) {
-    return option && option.value !== '-' && !option.disabled && !option.title;
-  }
-
-  _isControlled() {
-    return (
-      typeof this.props.selectedId !== 'undefined' &&
-      typeof this.props.onSelect !== 'undefined'
-    );
-  }
-
-  _onMouseEnterOption(index) {
-    if (this._isSelectableOption(this.props.options[index])) {
-      this._markOption(index);
-    }
-  }
-
-  _onMouseLeaveOption() {
-    this._markOption(NOT_HOVERED_INDEX);
-  }
-
-  _markOption(index) {
-    this.setState({ hoveredIndex: index });
-
-    this.props.onOptionMarked && this.props.onOptionMarked(this.props.options[index]);
-  }
-
-  _getMarkedIndex() {
-    const { options } = this.props;
-    const useHoverIndex = this.state.hoveredIndex > NOT_HOVERED_INDEX;
-    const useSelectedIdIndex = typeof this.state.selectedId !== 'undefined';
-
-    let markedIndex;
-    if (useHoverIndex) {
-      markedIndex = this.state.hoveredIndex;
-    } else if (useSelectedIdIndex) {
-      markedIndex = options.findIndex(
-        option => option.id === this.state.selectedId,
-      );
-    } else {
-      markedIndex = NOT_HOVERED_INDEX;
-    }
-
-    return markedIndex;
-  }
-
-  _markNextStep(step) {
-    const { options } = this.props;
-
-    if (!options.some(this._isSelectableOption)) {
-      return;
-    }
-
-    let markedIndex = this._getMarkedIndex();
-
-    do {
-      markedIndex = Math.abs(
-        modulu(Math.max(markedIndex + step, -1), options.length),
-      );
-    } while (!this._isSelectableOption(options[markedIndex]));
-    this._markOption(markedIndex);
+    onSelect && onSelect(option, sameOptionWasPicked);
   }
 }
 

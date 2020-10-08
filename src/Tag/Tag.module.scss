@@ -1,0 +1,265 @@
+@import '../common.scss';
+
+.root {
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color ease 300ms;
+  max-width: -moz-available;
+  max-width: -webkit-fill-available;
+  max-width: stretch;
+  min-height: 18px;
+
+  .thumb {
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    flex: 0 0 auto;
+  }
+
+  .removeButton {
+    flex: 0 0 auto;
+  }
+}
+
+// Sizes
+.size {
+  &-tiny {
+    padding: 0 9px;
+    border-radius: 9px;
+
+    &.withThumb {
+      padding-left: 3px;
+    }
+
+    &.withRemoveButton {
+      padding-right: 3px;
+    }
+
+    .thumb {
+      height: 12px;
+      width: 12px;
+      margin-right: 6px;
+    }
+  }
+
+  &-small {
+    padding: 3px 12px;
+    border-radius: 12px;
+
+    &.withThumb {
+      padding-left: 3px;
+    }
+
+    &.withRemoveButton {
+      padding-right: 3px;
+    }
+
+    .thumb {
+      height: 18px;
+      width: 18px;
+      margin-right: 6px;
+    }
+
+    .removeButton {
+      margin-left: 6px;
+    }
+  }
+
+  &-medium {
+    padding: 6px 12px;
+    border-radius: 15px;
+
+    &.withThumb {
+      padding-left: 6px;
+    }
+
+    &.withRemoveButton {
+      padding-right: 6px;
+    }
+
+    .thumb {
+      //TODO - sizes should be taken from the Avatar component
+      height: 18px;
+      width: 18px;
+      margin-right: 12px;
+    }
+
+    .removeButton {
+      margin-left: 6px;
+    }
+  }
+
+  &-large {
+    padding: 6px 18px;
+    border-radius: 18px;
+
+    &.withThumb {
+      padding-left: 6px;
+    }
+
+    &.withRemoveButton {
+      padding-right: 6px;
+    }
+
+    .thumb {
+      // TODO - sizes should be taken from the Avatar component
+      height: 24px;
+      width: 24px;
+      margin-right: 12px;
+    }
+
+    .removeButton {
+      margin-left: 12px;
+    }
+  }
+}
+
+:not(.disabled) {
+  &.clickable {
+    cursor: pointer;
+  }
+
+  // Skins
+  .skin {
+    &-standard {
+      background-color: $B40;
+
+      &.clickable:hover {
+        background-color: $B30;
+      }
+    }
+
+    &-warning {
+      background-color: $Y40;
+
+      &.clickable:hover {
+        background-color: $Y30;
+      }
+    }
+
+    &-error {
+      background-color: $R40;
+
+      &.clickable:hover {
+        background-color: $R30;
+      }
+    }
+
+    &-dark {
+      background-color: $D20;
+      color: $D80;
+
+      &.clickable:hover {
+        background-color: $D10;
+      }
+    }
+
+    &-neutral {
+      background-color: $D70;
+
+      &.clickable:hover {
+        background-color: $D60;
+      }
+    }
+
+    &-light {
+      background-color: $D80;
+
+      &.clickable:hover {
+        background-color: $B50;
+      }
+    }
+  }
+}
+
+.disabled {
+  background-color: $D10-05;
+  color: $D10-30;
+}
+
+@include withRTL() {
+  .tinySize {
+    padding: 0 9px;
+
+    &.withThumb {
+      padding-right: 3px;
+    }
+
+    &.withRemoveButton {
+      padding-left: 3px;
+    }
+
+    .thumb {
+      margin-left: 6px;
+      margin-right: 0;
+    }
+  }
+
+  .smallSize {
+    padding: 0 12px;
+
+    &.withThumb {
+      padding-right: 3px;
+    }
+
+    &.withRemoveButton {
+      padding-left: 3px;
+    }
+
+    .thumb {
+      margin-left: 6px;
+      margin-right: 0;
+    }
+
+    .removeButton {
+      margin-left: 0;
+      margin-right: 6px;
+    }
+  }
+
+  .mediumSize {
+    padding: 0 12px;
+
+    &.withThumb {
+      padding-right: 6px;
+    }
+
+    &.withRemoveButton {
+      padding-left: 6px;
+    }
+
+    .thumb {
+      margin-left: 12px;
+      margin-right: 0;
+    }
+
+    .removeButton {
+      margin-left: 0;
+      margin-right: 6px;
+    }
+  }
+
+  .largeSize {
+    padding: 0 18px;
+
+    &.withThumb {
+      padding-right: 6px;
+    }
+
+    &.withRemoveButton {
+      padding-left: 6px;
+    }
+
+    .thumb {
+      margin-left: 12px;
+      margin-right: 0;
+    }
+
+    .removeButton {
+      margin-left: 0;
+      margin-right: 12px;
+    }
+  }
+}

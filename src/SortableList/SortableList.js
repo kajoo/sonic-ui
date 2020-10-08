@@ -318,8 +318,8 @@ class SortableList extends WarpComponent {
                 animationDuration={animationDuration}
                 animationTiming={animationTiming}
                 {...common}
-                id={item.id}
                 index={index}
+                id={item.id}
                 item={item}
                 renderItem={this.renderItem}
                 withHandle={withHandle}

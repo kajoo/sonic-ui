@@ -1,102 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import DropdownBase from '../DropdownBase';
-import ListItemAction from '../ListItemAction';
-import styles from './PopoverMenu.module.scss';
+import { listItemActionBuilder } from '../ListItemAction';
 import { placements } from '../Popover';
+import styles from './PopoverMenu.module.scss';
 
 class PopoverMenu extends React.PureComponent {
   static displayName = 'PopoverMenu';
 
-  static MenuItem = () => ({});
-
-  static Divider = ({ dataHook }) => {
-    return (
-      <div data-hook={dataHook} style={{ padding: `6px 24px 6px 18px` }}>
-        <div className={styles.divider} />
-      </div>
-    );
-  };
-
   static propTypes = {
-    /** The maximum width applied to the list */
-    maxWidth: PropTypes.number,
 
-    /** The minimum width applied to the list */
-    minWidth: PropTypes.number,
-
-    /** The maximum height value applied to the list */
-    maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-    /** Popover content z-index */
-    zIndex: PropTypes.number,
-
-    /** Moves popover content relative to the parent by x or y */
-    moveBy: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
-
-    /** Element to trigger the popover */
-    triggerElement: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
-      .isRequired,
-
-    /** The Popover's placement:
-     *  * auto-start
-     *  * auto
-     *  * auto-end
-     *  * top-start
-     *  * top
-     *  * top-end
-     *  * right-start
-     *  * right
-     *  * right-end
-     *  * bottom-end
-     *  * bottom
-     *  * bottom-start
-     *  * left-end
-     *  * left
-     *  * left-start
-     */
-    placement: PropTypes.oneOf(placements),
-
-    /** Changing text size */
-    textSize: PropTypes.oneOf(['small', 'medium']),
-
-    /** Enables text ellipsis on tight containers */
-    ellipsis: PropTypes.bool,
-
-    /**
-     * `<PopoverMenu.MenuItem>` components that has these fields:
-     *  * `text` - Item text
-     *  * `onClick` - Callback to be triggered on item click
-     *  * `skin` - Item theme (standard, dark, destructive)
-     *  * `prefixIcon` - Prefix icon
-     *  * `dataHook` - Hook for testing purposes
-     *  * `disabled` - Disabled
-     */
-    children: PropTypes.node,
-
-    /** The Popover's appendTo */
-    appendTo: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-
-    /**
-     * Whether to enable the flip behaviour. This behaviour is used to flip the `<Popover/>`'s placement
-     * when it starts to overlap the target element (`<Popover.Element/>`).
-     */
-    flip: PropTypes.bool,
-    /**
-     * Whether to enable the fixed behaviour. This behaviour is used to keep the `<Popover/>` at it's
-     * original placement even when it's being positioned outside the boundary.
-     */
-    fixed: PropTypes.bool,
-
-    /** Whether to show the Popover's arrow */
-    showArrow: PropTypes.bool,
-
-    /** Applied as data-hook HTML attribute that can be used in the tests*/
-    dataHook: PropTypes.string,
-
-    /** A single CSS class name to be appended to the root element. */
-    className: PropTypes.string,
   };
 
   static defaultProps = {
@@ -112,67 +27,107 @@ class PopoverMenu extends React.PureComponent {
     maxHeight: 'auto',
   };
 
+  static MenuItem = () => ({});
+
+  static Divider = () => ({});
+
   constructor(props) {
     super(props);
 
     this.state = {
       focused: 0,
     };
-
     this.savedOnClicks = null;
     this.focusableList = [];
     this.children = {};
 
-    this._renderTriggerElement = this._renderTriggerElement.bind(this);
     this._renderOptions = this._renderOptions.bind(this);
-    this._buildOptions = this._buildOptions.bind(this);
+    this._renderTrigerElement = this._renderTrigerElement.bind(this);
     this._filterChildren = this._filterChildren.bind(this);
+    this._buildOptions = this._buildOptions.bind(this);
+    this._onKeyDown = this._onKeyDown.bind(this);
+    this._onSelect = this._onSelect.bind(this);
     this._saveOnClicks = this._saveOnClicks.bind(this);
     this._focus = this._focus.bind(this);
-    this._onSelect = this._onSelect.bind(this);
-    this._onKeyDown = this._onKeyDown.bind(this);
   }
 
   render() {
     const {
-      appendTo,
-      placement,
-      minWidth,
-      maxWidth,
-      flip,
-      fixed,
-      showArrow,
-      dataHook,
-      moveBy,
-      maxHeight,
-      zIndex,
+      className,
     } = this.props;
+
     return (
       <DropdownBase
-        className={styles.root}
-        dataHook={dataHook}
+        {...this.props}
+        animate
+        tabIndex={-1}
         options={this._renderOptions()}
         onSelect={this._onSelect}
-        appendTo={appendTo}
-        placement={placement}
-        minWidth={minWidth}
-        maxWidth={maxWidth}
-        flip={flip}
-        fixed={fixed}
-        showArrow={showArrow}
-        tabIndex={-1}
-        moveBy={moveBy}
-        maxHeight={maxHeight}
-        zIndex={zIndex}
+        className={classNames(styles.root, className)}
       >
-        {({ toggle, open, close }) =>
-          this._renderTriggerElement({ toggle, open, close })
-        }
+        {({ open, close, toggle }) => this._renderTrigerElement({ open, close, toggle })}
       </DropdownBase>
     );
   }
 
-  _renderTriggerElement({ toggle, open, close }) {
+  _renderOptions() {
+    const { textSize, ellipsis } = this.props;
+    const children = this._filterChildren(this.props.children);
+    const options = this._buildOptions(children);
+
+    // Store information for further use
+    this._saveOnClicks(options);
+
+    return options.map(option => {
+      // Custom
+      if (option.custom) {
+        return option;
+      }
+
+      // Divider
+      if (option.divider) {
+        return null;
+        // return listItemSectionBuilder({
+        //   type: 'divider',
+        //   ...option,
+        // });
+      }
+
+      const {
+        id,
+        disabled,
+        onClick,
+        dataHook,
+        skin,
+        subtitle,
+        ...rest
+      } = option;
+
+      const { focused } = this.state;
+
+      if (!disabled) {
+        this.focusableList = [...this.focusableList, id];
+      }
+
+      return listItemActionBuilder({
+        ...rest,
+        id,
+        disabled,
+        as: 'button',
+        dataHook: dataHook || `popover-menu-${id}`,
+        ref: ref => (this.children[id] = ref),
+        tabIndex: id === focused && !disabled ? '0' : '-1',
+        onKeyDown: e => this._onKeyDown(e, id),
+        skin: skin || 'dark',
+        size: textSize,
+        className: styles.listItem,
+        ellipsis,
+        subtitle,
+      });
+    });
+  }
+
+  _renderTrigerElement({ toggle, open, close }) {
     const { triggerElement } = this.props;
     if (!triggerElement) {
       return null;
@@ -190,47 +145,10 @@ class PopoverMenu extends React.PureComponent {
         });
   }
 
-  _renderOptions() {
-    const { textSize, ellipsis } = this.props;
-    const children = this._filterChildren(this.props.children);
-    const options = this._buildOptions(children);
-
-    // Store information for further use
-    this._saveOnClicks(options);
-
-    return options.map(option => {
-      if (option.divider || option.custom) {
-        return option;
-      }
-      const { id, disabled, onClick, dataHook, ...rest } = option;
-
-      const { focused } = this.state;
-
-      if (!disabled) {
-        this.focusableList = [...this.focusableList, id];
-      }
-
-      return {
-        id,
-        disabled,
-        overrideStyle: true,
-        value: props => (
-          <ListItemAction
-            {...props}
-            {...rest}
-            as="button"
-            dataHook={dataHook ? dataHook : `popover-menu-${id}`}
-            ref={ref => (this.children[id] = ref)}
-            tabIndex={id === focused && !disabled ? '0' : '-1'}
-            onKeyDown={e => this._onKeyDown(e, id)}
-            skin={option.skin || 'dark'}
-            size={textSize}
-            className={styles.listItem}
-            ellipsis={ellipsis}
-          />
-        ),
-      };
-    });
+  _filterChildren(children) {
+    return React.Children.map(children, child => child).filter(
+      child => typeof child !== 'string',
+    );
   }
 
   _buildOptions(children) {
@@ -239,56 +157,27 @@ class PopoverMenu extends React.PureComponent {
 
       if (displayName && displayName === 'PopoverMenu.Divider') {
         return {
-          id: id,
-          value: React.cloneElement(child, { dataHook: child.props.dataHook }),
+          id,
           divider: true,
-          overrideStyle: true,
+          dataHook: child.props.dataHook,
         };
       }
 
       if (displayName && displayName === 'PopoverMenu.MenuItem') {
         return {
-          id: id,
+          id,
           title: child.props.text,
           onClick: child.props.onClick,
           skin: child.props.skin,
           dataHook: child.props.dataHook,
           prefixIcon: child.props.prefixIcon,
           disabled: child.props.disabled,
+          subtitle: child.props.subtitle,
         };
       }
 
       return { id, value: child, custom: true, overrideStyle: true };
     });
-  }
-
-  _filterChildren(children) {
-    return React.Children.map(children, child => child).filter(
-      child => typeof child !== 'string',
-    );
-  }
-
-  _saveOnClicks(options) {
-    this.savedOnClicks = options.map(({ id, onClick }) => ({ id, onClick }));
-  }
-
-  _focus(e, focused) {
-    e.preventDefault();
-    const native = this.children[focused].focus;
-    const focusableHOC = this.children[focused].wrappedComponentRef;
-
-    const callback = native
-      ? this.children[focused].focus
-      : focusableHOC
-      ? focusableHOC.innerComponentRef.focus
-      : () => ({});
-
-    this.setState({ focused }, () => callback());
-  }
-
-  _onSelect(e) {
-    const onClick = this.savedOnClicks.find(({ id }) => id === e.id).onClick;
-    onClick && onClick();
   }
 
   _onKeyDown(e, id) {
@@ -323,6 +212,29 @@ class PopoverMenu extends React.PureComponent {
     if (focused !== this.state.focused) {
       this._focus(e, focused);
     }
+  }
+
+  _onSelect(e) {
+    const onClick = this.savedOnClicks.find(({ id }) => id === e.id).onClick;
+    onClick && onClick();
+  }
+
+  _saveOnClicks(options) {
+    this.savedOnClicks = options.map(({ id, onClick }) => ({ id, onClick }));
+  };
+
+  _focus(e, focused) {
+    e.preventDefault();
+    const native = this.children[focused].focus;
+    const focusableHOC = this.children[focused].wrappedComponentRef;
+
+    const callback = native
+      ? this.children[focused].focus
+      : focusableHOC
+      ? focusableHOC.innerComponentRef.focus
+      : () => ({});
+
+    this.setState({ focused }, () => callback());
   }
 }
 

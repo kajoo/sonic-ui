@@ -33,42 +33,11 @@ class IconButton extends React.PureComponent {
   static displayName = 'IconButton';
 
   static propTypes = {
-    /** render as some other component or DOM tag */
-    as: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.object,
-      PropTypes.string,
-    ]),
-    /** Used for passing any icon. For external icon make sure to follow ux sizing guidelines */
-    children: PropTypes.node,
-    /** Button skins */
-    skin: PropTypes.oneOf([
-      'standard',
-      'inverted',
-      'light',
-      'transparent',
-      'premium',
-    ]),
-    /** Button priority */
-    action: PropTypes.oneOf(['primary', 'secondary']),
-    /** Button size */
-    size: PropTypes.oneOf(['tiny', 'small', 'medium', 'large']),
-    /** Click event handler  */
-    onClick: PropTypes.func,
-    /** Applies disabled styles */
-    disabled: PropTypes.bool,
-
-    /** A single CSS class name to be appended to ther RichTextArea's wrapper element. */
-    className: PropTypes.string,
-    /** Applied as data-hook HTML attribute that can be used in the tests */
-    dataHook: PropTypes.string,
+    ...ButtonLayout.propTypes,
   };
 
   static defaultProps = {
-    skin: 'standard',
-    action: 'primary',
-    size: 'small',
-    disabled: false,
+    ...ButtonLayout.defaultProps,
   };
 
   render() {
@@ -79,7 +48,6 @@ class IconButton extends React.PureComponent {
       disabled,
       className,
       children,
-      dataHook,
       ...props
     } = this.props;
 
@@ -97,7 +65,7 @@ class IconButton extends React.PureComponent {
     );
 
     return (
-      <ButtonLayout {...props} className={classes} dataHook={dataHook}>
+      <ButtonLayout {...props} className={classes}>
         {children &&
           React.cloneElement(children, {
             size: childSize,

@@ -2,15 +2,16 @@
 
 .button {
   display: inline-flex;
+  align-items: center;
   justify-content: center;
 
   box-sizing: border-box;
   text-decoration: none;
   user-select: none;
   text-align: center;
-  vertical-align: middle;
   outline: none;
 
+  border-radius: 8px;
   min-width: 84px;
   border: 1px solid;
   cursor: pointer;
@@ -84,6 +85,14 @@
 //   }
 // }
 
+.prefix {
+  flex-shrink: 0;
+}
+
+.suffix {
+  flex-shrink: 0;
+}
+
 .size {
   &-large {
     min-width: 102px;
@@ -93,15 +102,51 @@
     .content {
       line-height: 2rem;
     }
+
+    .prefix {
+      margin: 0 12px 0 0;
+      width: 24px;
+      height: 24px;
+    }
+
+    .suffix {
+      margin: 0 0 0 12px;
+      width: 24px;
+      height: 24px;
+    }
   }
 
   &-medium {
     padding: 8px 24px;
+
+    .prefix {
+      margin: 0 12px 0 0;
+      width: 24px;
+      height: 24px;
+    }
+
+    .suffix {
+      margin: 0 0 0 12px;
+      width: 24px;
+      height: 24px;
+    }
   }
 
   &-small {
     min-width: 72px;
     padding: 6px 16px;
+
+    .prefix {
+      margin: 0 6px 0 0;
+      width: 18px;
+      height: 18px;
+    }
+
+    .suffix {
+      margin: 0 0 0 6px;
+      width: 18px;
+      height: 18px;
+    }
   }
 
   &-tiny {
@@ -111,6 +156,18 @@
 
     .content {
       line-height: 1rem;
+    }
+
+    .prefix {
+      margin: 0 6px 0 0;
+      width: 18px;
+      height: 18px;
+    }
+
+    .suffix {
+      margin: 0 0 0 6px;
+      width: 18px;
+      height: 18px;
     }
   }
 }

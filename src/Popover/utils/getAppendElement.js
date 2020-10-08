@@ -1,22 +1,16 @@
-/**
- * Copyright (c) Kajoo, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * @flow
- */
-
-import { getParentNode, getScrollParent } from './utils';
 const isElement = require('lodash/isElement');
 
-export const Predicate = (s: React.Element) => boolean;
-export type Preset = string;
-export type Elm = HTMLDivElement | Element;
+import { getParentNode, getScrollParent } from './utils';
+
+// export type Predicate = (s: Element) => boolean;
+// export type Preset = string;
+// export type Elm = HTMLDivElement | Element;
 
 export function getAppendToElement(
-  appendTo?: Preset | Predicate | Elm,
-  node?: React.Element,
+  // appendTo?: Preset | Predicate | Elm,
+  // node?: Element,
+  appendTo,
+  node,
 ) {
   if (!appendTo) {
     return null;

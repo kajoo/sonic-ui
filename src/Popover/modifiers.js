@@ -1,12 +1,3 @@
-/**
- * Copyright (c) Kajoo, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * @flow
- */
-
 import PopperJS from 'popper.js';
 
 const getUnit = value => {
@@ -26,10 +17,10 @@ const calculateOffset = ({ moveBy, placement = '' }): string => {
    *
    */
   if (placement.includes('right') || placement.includes('left')) {
-    return `${moveBy ? moveBy.y : 0}px, ${moveBy ? moveBy.x : 0}px`;
+    return [moveBy ? moveBy.y : 0, moveBy ? moveBy.x : 0];
   }
 
-  return `${moveBy ? moveBy.x : 0}px, ${moveBy ? moveBy.y : 0}px`;
+  return [moveBy ? moveBy.x : 0, moveBy ? moveBy.y : 0];
 };
 
 // interface styles {
@@ -42,8 +33,14 @@ const resolveWidth = ({
   minWidth,
   dynamicWidth,
   referenceWidth,
-// }): styles => {
-}) => {
+}): styles => {
+  console.log(
+    'dshdsds',
+    width,
+    minWidth,
+    dynamicWidth,
+    referenceWidth,
+  );
   return {
     minWidth: dynamicWidth ? `${referenceWidth}px` : getUnit(minWidth),
     width: width || 'auto',
@@ -51,39 +48,88 @@ const resolveWidth = ({
 };
 
 export const createModifiers = ({
-  width,
-  moveBy,
   appendTo,
+  placement,
+  moveBy,
   shouldAnimate,
   flip,
   fixed,
-  placement,
-  isTestEnv,
+  width,
   minWidth,
   dynamicWidth,
+  isTestEnv,
 }) => {
   const preventOverflow = !fixed;
 
-  const modifiers: PopperJS.Modifiers = {
-    offset: {
-      offset: calculateOffset({ moveBy, placement }),
+  // const modifiers: PopperJS.Modifiers = {
+  // const modifiers = {
+  //   offset: {
+  //     offset: calculateOffset({ moveBy, placement }),
+  //   },
+  //   computeStyle: {
+  //     gpuAcceleration: !shouldAnimate,
+  //     adaptive: !shouldAnimate,
+  //   },
+  //   flip: {
+  //     enabled: typeof flip !== 'undefined' ? flip : !moveBy,
+  //   },
+  //   preventOverflow: {
+  //     enabled: preventOverflow,
+  //   },
+  //   hide: {
+  //     enabled: preventOverflow,
+  //   },
+  // };
+  const modifiers = [
+    {
+      name: 'offset',
+      options: {
+        offset: calculateOffset({ moveBy, placement }),
+      },
     },
-    computeStyle: {
-      gpuAcceleration: !shouldAnimate,
+    {
+      name: 'computeStyle',
+      options: {
+        gpuAcceleration: !shouldAnimate,
+        adaptive: !shouldAnimate,
+      },
     },
-    flip: {
+    {
+      name: 'flip',
       enabled: typeof flip !== 'undefined' ? flip : !moveBy,
     },
-    preventOverflow: {
+    {
+      name: 'preventOverflow',
       enabled: preventOverflow,
     },
-    hide: {
+    {
+      name: 'hide',
       enabled: preventOverflow,
     },
-  };
+  ];
 
   if (dynamicWidth || minWidth || width) {
-    modifiers.setPopperWidth = {
+    // modifiers.setPopperWidth = {
+    //   enabled: true,
+    //   order: 840,
+    //   fn: data => {
+    //     const { width: referenceWidth } = data.offsets.reference;
+    //
+    //     data.styles = {
+    //       ...data.styles,
+    //       ...resolveWidth({
+    //         width,
+    //         referenceWidth,
+    //         minWidth,
+    //         dynamicWidth,
+    //       }),
+    //     };
+    //
+    //     return data;
+    //   },
+    // };
+    modifiers.push({
+      name: 'setPopperWidth',
       enabled: true,
       order: 840,
       fn: data => {
@@ -101,17 +147,23 @@ export const createModifiers = ({
 
         return data;
       },
-    };
+    });
   }
 
   if (isTestEnv) {
-    modifiers.computeStyle = { enabled: false };
+    // modifiers.computeStyle = { enabled: false };
   }
 
   if (appendTo) {
-    modifiers.preventOverflow = {
-      ...modifiers.preventOverflow,
-      boundariesElement: appendTo,
+    // modifiers.preventOverflow = {
+    //   ...modifiers.preventOverflow,
+    //   boundariesElement: appendTo,
+    // };
+    modifiers[3] = {
+      ...modifiers[3],
+      options: {
+        boundariesElement: appendTo,
+      },
     };
   }
 

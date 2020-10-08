@@ -23,24 +23,7 @@ class Button extends React.PureComponent {
   static displayName = 'Button';
 
   static propTypes = {
-    /**
-     * Specify how the button itself should be rendered.
-     * Make sure to apply all props to the root node and render children appropriately
-     */
-    tag: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.object,
-      PropTypes.string,
-    ]),
-    theme: PropTypes.oneOf(['primary', 'warning', 'danger']),
-    /**
-     * Size of button content
-     */
-    size: PropTypes.oneOf(['tiny', 'small', 'medium', 'large']),
-    /**
-     * Specify the content of your Button
-     */
-    children: PropTypes.node,
+    ...ButtonLayout.propTypes,
     /**
      * Element based icon (svg, image etc.)
      */
@@ -58,17 +41,8 @@ class Button extends React.PureComponent {
      */
     fullWidth: PropTypes.bool,
     /**
-     * Click event handler
+     * Showing a loading indicator
      */
-    onClick: PropTypes.func,
-    /**
-     * Specify an optional className to be added to your Button
-     */
-    className: PropTypes.string,
-    /**
-     * String based data hook
-     */
-    dataHook: PropTypes.string,
     isLoading: PropTypes.bool,
   };
 
@@ -80,18 +54,18 @@ class Button extends React.PureComponent {
     const { isLoading, children, ...props } = this.props;
     const { size } = props;
 
-    let style;
+    let loaderStyle;
     switch (size) {
       case 'large': {
-        style = { height: '2rem', width: '2rem' };
+        loaderStyle = { height: '2rem', width: '2rem' };
         break;
       }
       case 'tiny': {
-        style = { height: '1rem', width: '1rem' };
+        loaderStyle = { height: '1rem', width: '1rem' };
         break;
       }
       default: {
-        style = { height: '1.5rem', width: '1.5rem' };
+        loaderStyle = { height: '1.5rem', width: '1.5rem' };
         break;
       }
     }
@@ -100,7 +74,7 @@ class Button extends React.PureComponent {
       <ButtonLayout
         {...props}
       >
-        {isLoading ? <Loader style={style} /> : children}
+        {isLoading ? <Loader style={loaderStyle} /> : children}
       </ButtonLayout>
     );
   }

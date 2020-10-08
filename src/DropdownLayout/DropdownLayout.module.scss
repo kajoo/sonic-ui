@@ -6,18 +6,23 @@
 $option_height: 35px;
 $big_option_height: 47px;
 $content_container_height: 260px;
-$top-arrow-size: 8px;
+$arrow-size: 8px;
 $arrowUpShadow: 3px 3px 8px rgba(0, 0, 0, .1);
 $arrowDownShadow: -3px -3px 8px rgba(0, 0, 0, .1);
 
 .wrapper {
+  z-index: 1000; // TODO: Unite all zIndexes in one place
   box-sizing: border-box;
-  position: relative;
-  outline: none;
-  border: none;
   width: 100%;
+  position: relative;
   display: flex;
   justify-content: center;
+  border: none;
+  outline: none;
+
+  * {
+    box-sizing: border-box;
+  }
 }
 
 .options {
@@ -26,18 +31,17 @@ $arrowDownShadow: -3px -3px 8px rgba(0, 0, 0, .1);
   @include default-scroll-bar;
 }
 
-.content-container {
-  background: $D80;
-  border: none;
-  display: none;
-  opacity: 0;
-  height: 0;
-  padding: 0;
-  transition: opacity 0.2s ease;
-  display: none;
+.contentContainer {
   width: 100%;
-  z-index: 6;
+  height: 0;
   left: 0;
+  display: none;
+  padding: 0;
+  border: none;
+  transition: opacity 0.2s ease;
+  opacity: 0;
+  background: $D80;
+  z-index: 6;
 
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -46,20 +50,20 @@ $arrowDownShadow: -3px -3px 8px rgba(0, 0, 0, .1);
   user-select: none;
 
   &.containerStyles {
+    position: absolute;
     border-radius: 8px;
     box-shadow: $Shadow30;
-    position: absolute;
   }
 }
 
-.content-container.shown {
+.contentContainer.visible {
+  height: auto;
   display: flex;
   flex-direction: column;
-  height: auto;
   overflow: auto;
   opacity: 1;
 
-  &.with-arrow {
+  &.withArrow {
     padding: 10px 0;
   }
 
@@ -68,8 +72,8 @@ $arrowDownShadow: -3px -3px 8px rgba(0, 0, 0, .1);
       bottom: 0;
       margin-top: 15px;
 
-      &.with-arrow {
-        margin-bottom: $top-arrow-size;
+      &.withArrow {
+        margin-bottom: $arrow-size;
       }
     }
 
@@ -77,32 +81,23 @@ $arrowDownShadow: -3px -3px 8px rgba(0, 0, 0, .1);
       top: 0;
       margin-bottom: 15px;
 
-      &.with-arrow {
-        margin-top: $top-arrow-size;
+      &.withArrow {
+        margin-top: $arrow-size;
       }
     }
   }
 }
 
-.loader {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 24px;
-}
-
 .option {
-  line-height: 1.5;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: left;
-  padding: 6px 20px 6px 24px;
-
-
-  cursor: pointer;
-
   width: 100%;
   display: flex;
   align-items: center;
+  padding: 6px 20px 6px 24px;
+  text-align: left;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
 
   &.small-height {
     min-height: $option_height;
@@ -154,6 +149,7 @@ a[data-hook=link-item] {
 
 .option.selected {
   background-color: $B10;
+  color: $D80,
   // @extend .light;
 }
 
@@ -164,13 +160,9 @@ a[data-hook=link-item] {
 
 .divider {
   height: 1px;
-  overflow: hidden;
-  background-color: $D60;
   margin: 0;
-}
-
-.wrapper * {
-  box-sizing: border-box;
+  background-color: $D60;
+  overflow: hidden;
 }
 
 .arrow {
@@ -178,17 +170,17 @@ a[data-hook=link-item] {
   left: 50%;
   z-index: 10;
   transform: translateX(-50%) rotateZ(45deg);
-  height: $top-arrow-size;
-  width: $top-arrow-size;
+  height: $arrow-size;
+  width: $arrow-size;
   background: $D80;
 
   &.up {
-    bottom: $top-arrow-size / 2;
+    bottom: $arrow-size / 2;
     box-shadow: $arrowUpShadow;
   }
 
   &.down {
-    top: $top-arrow-size / 2;
+    top: $arrow-size / 2;
     box-shadow: $arrowDownShadow;
   }
 }

@@ -9,6 +9,12 @@
   transition-duration: 100ms;
   transition-timing-function: linear;
   transition-property: background-color, color, border-color;
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .size {

@@ -34,6 +34,10 @@ class ButtonLayout extends React.PureComponent {
      * Size of button content
      */
     size: PropTypes.oneOf(['tiny', 'small', 'medium', 'large']),
+    /** Element based icon (svg, image etc.) */
+    prefixIcon: PropTypes.element,
+    /** Element based icon (svg, image etc.) */
+    suffixIcon: PropTypes.element,
     /**
      * Specify the content of your Button
      */
@@ -81,6 +85,8 @@ class ButtonLayout extends React.PureComponent {
       href,
       tabIndex,
       fullWidth,
+      prefixIcon,
+      suffixIcon,
       children,
       className,
       dataHook,
@@ -115,11 +121,17 @@ class ButtonLayout extends React.PureComponent {
         onMouseLeave={this._onMouseLeave}
         data-hook={dataHook}
       >
+        {this.renderAffix(prefixIcon, styles.prefix)}
         <span className={styles.content}>{children}</span>
+        {this.renderAffix(suffixIcon, styles.suffix)}
       </Component>
     );
-    // {this.addAffix(prefixIcon, styles.prefix)}
-    // {this.addAffix(suffixIcon, styles.suffix)}
+  }
+
+  renderAffix(affix, className) {
+    return affix && React.cloneElement(affix, {
+      className: classNames(className, affix.props.className),
+    });
   }
 
   _onClick(e) {

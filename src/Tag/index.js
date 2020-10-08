@@ -9,4 +9,4 @@
 
 'use strict';
 
-export { default } from './Dropdown';
+export { default } from './Tag';

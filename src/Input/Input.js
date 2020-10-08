@@ -218,7 +218,7 @@ class Input extends React.Component {
   static defaultProps = {
     autoSelect: true,
     size: 'normal',
-    theme: 'material',
+    theme: 'normal',
     statusMessage: '',
     errorMessage: '',
     helpMessage: '',

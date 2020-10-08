@@ -12,11 +12,13 @@ const FooterLayout = ({
   cancelText,
   cancelPrefixIcon,
   cancelSuffixIcon,
+  cancelProps,
   onCancel,
   onConfirm,
   confirmText,
   confirmPrefixIcon,
   confirmSuffixIcon,
+  confirmProps,
   buttonsHeight,
   enableOk,
   enableCancel,
@@ -42,6 +44,7 @@ const FooterLayout = ({
               onClick={onCancel}
               children={cancelText}
               dataHook="cancellation-button"
+              {...cancelProps}
             />
           )}
           {confirmText && (
@@ -54,6 +57,7 @@ const FooterLayout = ({
               onClick={onConfirm}
               children={confirmText}
               dataHook="confirmation-button"
+              {...confirmProps}
             />
           )}
         </div>

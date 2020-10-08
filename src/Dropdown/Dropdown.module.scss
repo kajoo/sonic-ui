@@ -7,7 +7,7 @@
 .noBorder {
   border: none;
 
-  > div {
+  & > div {
     border: none;
   }
 }
